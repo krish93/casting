@@ -1,0 +1,23 @@
+S.No,Category,SubCategory,Description,1234,4567,8965
+1,Basic,,Fin weight,11,101,1001
+,,,Input weight,12,102,1002
+,,,Others,13,103,1003
+,,,B/up part cost,14,104,1004
+,,,B/up tool cost,15,105,1005
+2,Chasis,,Settled part cost,16,106,1006
+,,,Settled tool cost,17,107,1007
+,,,Specification,18,108,1008
+,,,1,19,109,1009
+,,,2,20,110,1010
+3,Engine,dashboard,3,21,111,1011
+,,,4,22,112,1012
+,,,Top parts,23,113,1013
+,,clutch,1,24,114,1014
+,,,2,25,115,1015
+,,,3,26,116,1016
+4,Mechatronics,,4,27,117,1017
+,,,Raw material,28,118,1018
+,,,RM1,29,119,1019
+,,,Fin weight,30,120,1020
+,,,RM2,31,121,1021
+,,,,,,

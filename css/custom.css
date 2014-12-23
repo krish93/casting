@@ -1,0 +1,20 @@
+.sub-category{
+  padding-left:20px;
+}
+.category-list{
+  display:none;
+  text-transform: capitalize;
+}
+.sub-category-description{
+  padding-left: 30px;
+}
+.category-description{
+  padding-left: 25px;
+}
+.sub-category-display{
+  padding-left:20px;
+  text-decoration: underline;
+}
+#description-menu{
+  text-transform: capitalize;
+}
