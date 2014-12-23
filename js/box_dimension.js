@@ -68,7 +68,7 @@ $("document").ready(function () {
     for (i = 0; i < file_lines.length; i += 1)
     {
       var cells = file_lines[i].split(',');  
-      if ( isValidCategory(cells[length_index]) && i !== length_index )
+      if ( isValidCategory(cells[length_index]) && i !== row_index )
       {
         if(cells[length_index].toLowerCase().trim().replace(/\"/g,'') == "length" ){}
         else
@@ -76,7 +76,7 @@ $("document").ready(function () {
           length.push(cells[length_index]);
         }
       }
-      if( isValidCategory(cells[breadth_index]) && i !== breadth_index )
+      if( isValidCategory(cells[breadth_index]) && i !== row_index )
       {
         if(cells[breadth_index].toLowerCase().trim().replace(/\"/g,'') == "breadth" ){}
         else
@@ -84,7 +84,7 @@ $("document").ready(function () {
               breadth.push(cells[breadth_index]);
         }
       }
-      if( isValidCategory(cells[drag_height_index]) && i!== drag_height_index)
+      if( isValidCategory(cells[drag_height_index]) && i!== row_index)
       {
         if(cells[drag_height_index].toLowerCase().trim().replace(/\"/g,'') == "drag_height" ){}
         else
@@ -92,7 +92,7 @@ $("document").ready(function () {
           drag_height.push(cells[drag_height_index]);
         }
       }
-       if( isValidCategory(cells[cope_height_index]) && i!== cope_height_index )
+       if( isValidCategory(cells[cope_height_index]) && i!== row_index )
       {
         if(cells[cope_height_index].toLowerCase().trim().replace(/\"/g,'') == "cope_height" ){}
         else
@@ -100,7 +100,7 @@ $("document").ready(function () {
           cope_height.push(cells[cope_height_index]);
         }
       }
-      if( isValidCategory(cells[avl_length_index]) && i!== avl_length_index )
+      if( isValidCategory(cells[avl_length_index]) && i!== row_index )
       {
         if(cells[avl_length_index].toLowerCase().trim().replace("_","") == "avllength" ){}
         else
@@ -108,7 +108,7 @@ $("document").ready(function () {
           avl_length.push(cells[avl_length_index]);
         }
       }
-      if( isValidCategory(cells[avl_breadth_index]) && i!== avl_breadth_index )
+      if( isValidCategory(cells[avl_breadth_index]) && i!== row_index )
       {
         if(cells[avl_breadth_index].toLowerCase().trim().replace("_","") == "avlbreadth" ){}
         else
@@ -127,8 +127,8 @@ $("document").ready(function () {
     var insert_box_dimension_end="</option>";
     for(i=0;i<length.length;i++)
     {
-        console.log("inside");
-      $("#box_size").append(insert_box_dimension_start+"data-avl-length='"+avl_length[i]+"' data-avl-breadth='"+avl_breadth[i]+"' >" +length[i]+"X"+breadth[i]+"X"+cope_height[i]+"X"+drag_height[i]+insert_box_dimension_end);
+        console.log(length[i]);
+      $("#box_size").append(insert_box_dimension_start+"data-avl-length='"+avl_length[i].replace(/\"/g,'')+"' data-avl-breadth='"+avl_breadth[i].replace(/\"/g,'')+"' >" +length[i].replace(/\"/g,'')+"X"+breadth[i].replace(/\"/g,'')+"X"+cope_height[i].replace(/\"/g,'')+"X"+drag_height[i].replace(/\"/g,'')+insert_box_dimension_end);
     } 
   }
   

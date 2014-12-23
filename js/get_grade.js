@@ -1,5 +1,5 @@
 $("document").ready(function(){
-  var file_lines= [], grade_index, copper_index, silicon_index, manganese_index, carbon_index, type_index, grade = [], copper = [], silicon = [],manganese = [], carbon = [], type = [];
+  var file_lines= [], grade_index, copper_index, silicon_index, manganese_index, carbon_index, type_index, grade = [], copper = [], silicon = [],manganese = [], carbon = [], type = [],name;
  function findHit(str) {
     str = str.toLowerCase().trim().replace(/\"/g,'');
     if (typeof str !== 'undefined') {
@@ -175,11 +175,11 @@ $("document").ready(function(){
     $("#iron_new").click(function(){
     $(".new_grade").remove();
         
-    var name=$("#iron_new").data("name");
+     name=$("#iron_new").data("name");
     var grade_name="name="+name;
         console.log(type[0].trim() === name.trim());
     var i;
-    var insert_grade_option_start="<option>";
+    var insert_grade_option_start="<option class='new_grade'>";
     var insert_grade_option_end="</option>";
     for(i=0;i<type.length;i++)
     {
@@ -191,7 +191,7 @@ $("document").ready(function(){
   });
   $("#iron_new1").click(function(){
     $(".new_grade").remove();
-    var name=$("#iron_new1").data("name");
+    name=$("#iron_new1").data("name");
     var grade_name="name="+name;
   
    
