@@ -108,7 +108,7 @@ $("document").ready(function(){
       }
       if( isValidCategory(cells[type_index]))
       {
-          console.log(cells[type_index]);
+          
         if(cells[type_index].toLowerCase().trim() == "type" ){}
         else
         {
@@ -127,17 +127,12 @@ $("document").ready(function(){
     var insert_grade_end="</div>";
     for(i=0;i<grade.length;i++)
     {
-        console.log("insert");
+       
       $("#get_grade").append(insert_grade_start+"data-grade='"+grade[i]+"' data-carbon='"+carbon[i]+"' data-silicon='"+silicon[i]+"' data-manganese='"+manganese[i]+"' data-copper='"+copper[i]+"' data-type='"+type[i]+"' >"+insert_grade_end);
     }
     
   }
-  $("#box_size").change(function(){
-    
-    console.log($('#box_size :selected').text());
-    //console.log($('#box_size :selected').data("avl-length"));
-    console.log($('#box_size :selected').data("avl-breadth"));
-  });
+  
   
   //Storing details of the file
   function inferFile()
@@ -165,7 +160,7 @@ $("document").ready(function(){
         
         file_lines.push(lines[line]);
       }
-      console.log(file_lines);
+     
       
       inferFile();
     };

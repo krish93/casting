@@ -127,7 +127,7 @@ $("document").ready(function () {
     var insert_box_dimension_end="</option>";
     for(i=0;i<length.length;i++)
     {
-        console.log(length[i]);
+       
       $("#box_size").append(insert_box_dimension_start+"data-avl-length='"+avl_length[i].replace(/\"/g,'')+"' data-avl-breadth='"+avl_breadth[i].replace(/\"/g,'')+"' >" +length[i].replace(/\"/g,'')+"X"+breadth[i].replace(/\"/g,'')+"X"+cope_height[i].replace(/\"/g,'')+"X"+drag_height[i].replace(/\"/g,'')+insert_box_dimension_end);
     } 
   }
@@ -136,7 +136,7 @@ $("document").ready(function () {
   function inferFile()
   {
     findColumnHeadings();
-      console.log("length"+length);
+     
     extractCategories(length_index,breadth_index,cope_height_index,drag_height_index,avl_length_index,avl_breadth_index);
     appendDimension();
     //createCategoriesMenu();
@@ -157,8 +157,8 @@ $("document").ready(function () {
         file_lines.push(lines[line]);
       }
         
-      console.log(file_lines);
-      //JSON.parse(file_lines);
+     
+     
         inferFile();
     };
     reader.readAsText(file);
@@ -166,7 +166,7 @@ $("document").ready(function () {
   
   $("#weight").change(function(){
     var get_weight=$("#get_weight").val();
-    if(get_weight==0)
+    if(get_weight===0)
     {
       $("#weight").val($("#weight option:first").val());
     }

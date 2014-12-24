@@ -18,9 +18,7 @@ $("document").ready(function(){
         material.push($(this).data("material"));
         cost.push($(this).data("cost"));
         });
-        console.log(cost);
-        console.log(recovery);
-        console.log(material);
+        
         
     }
    $("#raw_material_file").on('change',function(){
