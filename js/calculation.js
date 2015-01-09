@@ -4,34 +4,37 @@ var casting_breadth,casting_length,casting_height,cavity,box_dimension,bentonite
 //Get the Box Size
 function getBoxSize()
 {
-    casting_length=$("#casting_length").val();
-    casting_breadth=$("#casting_breadth").val();
-    casting_height=$("#casting_height").val();
-    box_dimension=$("#box_size").val();
-    var dimension=box_dimension.split('X').map(Number);
-    var avl_length=$("#box_size").find(':selected').attr("data-avl-length").trim();
-    var avl_breadth=$("#box_size").find(':selected').attr("data-avl-breadth").trim();
-    casting_length=parseInt(casting_length);
-    casting_breadth=parseInt(casting_breadth);
-    avl_length=parseInt(avl_length);
-    avl_breadth=parseInt(avl_breadth);
- 
- 
-    cavity = calcualteCavity(parseInt(casting_length),parseInt(casting_breadth),parseInt(avl_length),parseInt(avl_breadth));
- 
-    var sand_requirement=sandRequirement(casting_length,casting_breadth,casting_height,dimension);
-    sand_requirement=parseInt(sand_requirement);
-    new_sand = getPercentage(sand_requirement,2);
-    bentonite = getPercentage(sand_requirement,0.8);
-    lustron = getPercentage(sand_requirement,0.4);
-    
-    return_sand = (sand_requirement -(new_sand+bentonite+lustron));
-    var table_start="<table id='box_table' class='table table-bordered table-hover'>";
-    var table_heading="<tr><th>Length</th><th>Breadth</th><th>Cope Height</th><th>Drag Height</th><th>Sand  Requirement</th><th>New Sand</th><th>Bentonite</th><th>Lustron</th><th>Return Sand</th></tr>"
-    var table_end="</table>";
-    $("#display_content").append(table_start+table_heading);
-    printRequirementTable("#box_table",dimension,sand_requirement,new_sand,bentonite,lustron,return_sand);
-    $("#box_table").append(table_end);
+  var div_box_dimension_start="<div";
+  var div_box_dimension_end="</div>";
+  casting_length=$("#casting_length").val();
+  casting_breadth=$("#casting_breadth").val();
+  casting_height=$("#casting_height").val();
+  box_dimension=$("#box_size").val();
+  var dimension=box_dimension.split('X').map(Number);
+  var avl_length=$("#box_size").find(':selected').attr("data-avl-length").trim();
+  var avl_breadth=$("#box_size").find(':selected').attr("data-avl-breadth").trim();
+  casting_length=parseInt(casting_length);
+  casting_breadth=parseInt(casting_breadth);
+  avl_length=parseInt(avl_length);
+  avl_breadth=parseInt(avl_breadth);
+
+
+  cavity = calcualteCavity(parseInt(casting_length),parseInt(casting_breadth),parseInt(avl_length),parseInt(avl_breadth));
+
+  var sand_requirement=sandRequirement(casting_length,casting_breadth,casting_height,dimension);
+  sand_requirement=parseInt(sand_requirement);
+  new_sand = getPercentage(sand_requirement,2);
+  bentonite = getPercentage(sand_requirement,0.8);
+  lustron = getPercentage(sand_requirement,0.4);
+  
+  return_sand = (sand_requirement -(new_sand+bentonite+lustron));
+  var table_start="<table id='box_table' class='table table-bordered table-hover'>";
+  var table_heading="<tr><th>Length</th><th>Breadth</th><th>Cope Height</th><th>Drag Height</th><th>Sand  Requirement</th><th>New Sand</th><th>Bentonite</th><th>Lustron</th><th>Return Sand</th></tr>"
+  var table_end="</table>";
+  $("#display_content").append(table_start+table_heading);
+  printRequirementTable("#box_table",dimension,sand_requirement,new_sand,bentonite,lustron,return_sand);
+  $("#box_table").append(table_end);
+  $("#get_box_dimension").append(div_box_dimension_start+" data-casting-length='"+casting_length+"'"+"data-casting-breadth='"+casting_breadth+"'"+"data-casting-height='"+casting_height+"'"+"data-box-length='"+dimension[0]+"'"+"data-box-breadth='"+dimension[1]+"'"+"data-cope-height='"+dimension[2]+"'"+"data-drag-height='"+dimension[3]+"'"+"data-cavity='"+cavity+"'"+"data-sand-requirement='"+sand_requirement+"'"+"data-new-sand='"+new_sand+"'"+"data-bentonite='"+bentonite+"'"+"data-lustron='"+lustron+"'"+"data-return-sand='"+return_sand+"' >"+div_box_dimension_end);
 }
 
 //Calcualte the Number of Cavity
@@ -109,6 +112,8 @@ $("#calculate").click(function(){
         console.log("name"+name);
         getBoxSize();
         getRawMaterialCost();
+        getSandCost();
+        getColdBoxCost();
     }
 });    
 });

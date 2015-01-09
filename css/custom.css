@@ -18,3 +18,7 @@
 #description-menu{
   text-transform: capitalize;
 }
+td,th
+{
+  text-align: center;
+}

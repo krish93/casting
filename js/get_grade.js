@@ -135,36 +135,53 @@ $("document").ready(function(){
   
   
   //Storing details of the file
-  function inferFile()
-{
-    findColumnHeadings();
-    console.log(copper_index+" "+grade_index)
-    extractCategories(grade_index,carbon_index,silicon_index,manganese_index,copper_index,type_index);
-    console.log(grade);
-    console.log(type);
-    appendGrade();
-    //createCategoriesMenu();
-    //createDescriptionView();
+ function inferFile()
+ {
+   findColumnHeadings();
+   extractCategories(grade_index,carbon_index,silicon_index,manganese_index,copper_index,type_index);
+   appendGrade();
   }
-  
-    $('#grade_file').on('change', function(){
+  $("#grade_success").hide();
+  $("#grade_error").hide();
+  $('#grade_file').on('change', function(){
     var file = this.files[0];
-
     var reader = new FileReader();
-    reader.onload = function(progressEvent){
-      // Entire file
-      main_file_data = this.result;
-      // By lines
-      var lines = this.result.split('\n');
-      for(var line = 0; line < lines.length; line++){
-        
-        file_lines.push(lines[line]);
+      reader.readAsText(file);
+    if(file.name === "grade.csv")
+    {
+      $("#grade_error").hide();
+      $("#error-message").hide();
+      $("#grade_file").prop('disabled', true);
+      if($("#grade_upload_file").hasClass("has-error"))
+      {
+        $("#grade_upload_file").removeClass("has-error");
       }
-     
+      $("#grade_upload_file").addClass("has-success");
+      $("#grade_upload_file").addClass("has-feedback");
+      $("#grade_success").show();
       
-      inferFile();
-    };
-    reader.readAsText(file);
+      reader.onload = function(progressEvent){
+        main_file_data = this.result;
+        var lines = this.result.split('\n');
+        for(var line = 0; line < lines.length; line++){
+          file_lines.push(lines[line]);
+        }
+        inferFile();
+      };
+      console.log("changed");
+    }
+    else{
+      $("#grade_success").hide();
+      if($("#grade_upload_file").hasClass("has-success"))
+      {
+        $("#grade_upload_file").removeClass("has-success");
+      }
+      $("#grade_upload_file").addClass("has-error");
+      $("#grade_upload_file").addClass("has-feedback");
+      $("#grade_error").show();
+      $("#error-message").show();
+      $("#error-message").html("<div class='alert alert-danger' role='alert'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span class='sr-only'>Error:</span>Uploaded Wrong File</div>'");
+    }
   });
     
     $("#iron_new").click(function(){

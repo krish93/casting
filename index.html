@@ -1,153 +1,233 @@
+<!DOCTYPE html>
 <html>
 	<head>
+	  <title>Casting Tool Calculator</title>
+
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/custom.css" />
+	  <link rel="stylesheet" href="dist/css/ripples.min.css">
+	  <link rel="stylesheet" href="dist/css/material-wfont.min.css">
+	  <link href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/custom.css"/>
 		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="dist/js/ripples.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/js/material.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/typeahead.min.js"></script>
 		<script src="js/jquery.csv-0.71.js"></script>
-        <script src="js/box_dimension.js"></script>
-        <script src="js/print_table.js"></script>
-        <script src="js/calculateRawMaterialCost.js"></script>
-        <script src="js/calculation.js"></script>
-        <script src="js/get_grade.js"></script>
-        <script src="js/get_raw_material.js"></script>
+    <script src="js/box_dimension.js"></script>
+    <script src="js/print_table.js"></script>
+    <script src="js/calculateRawMaterialCost.js"></script>
+    <script src="js/calculation.js"></script>
+    <script src="js/get_grade.js"></script>
+    <script src="js/get_raw_material.js"></script>
+    <script>
+		  $("document").ready(function() {
+    $.material.init();
+});
+		</script>
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-static-top">
-			<div class="navbar-header">
-				<div class="navbar-brand text-right">Casting Tool Calculator</div>
-			</div>
-		</div>
-      <input type="file" id="input_file">
-      <input type="file" id="grade_file">
-      <input type="file" id="raw_material_file">
-    <div class="container">
-    <div class="row">
-    
-      <form id="form" method="post" role="form" class="form form-horizontal">
-      <div class="col-md-5 col-md-offset-0" style="float:left">
+  	<!--Header-->
+    <div class="navbar navbar-inverse navbar-static-top">
+     <div class="conntainer-fluid">
+  	  <div class="navbar-header">
+  		  <div class="navbar-brand text-right">Casting Tool Calculator</div>
+  	  </div>
+  	  </div>
+  	</div>
+  	<!--Error Message-->
+    <p id="error-message"></p>
+    <!--File Upload-->
+    <div class="conntainer">
+      <div class="row">
+        <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-4 control-label">Weight:</label>
-            <div class="col-sm-8">
-              <input type="text" pattern="[0-9]*.[0-9]*" name="weight" id="get_weight" placeholder="weight" class="form-control" required >
+            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+            <div class="col-lg-10">
+               <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
+                <input type="file" id="inputFile" multiple="">
             </div>
         </div>
-        
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Casting Value:</label>
-            <div class="col-sm-8">
-              <select name="casting_weight" class="form-control" id="weight">
-                <option disabled selected >Select the value</option>
-                <option>1.1</option>
-                <option>1.14</option> 
-                <option>1.2</option>
-                <option>1.25</option>
-              </select>
-            </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Casting weight:</label>
-            <div class="col-sm-8">
-              <input type="text" name="cast_value" placeholder="casting weight value" id="cast_value" class="form-control" value="" disabled>
-            </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Casting Length:</label>
-            <div class="col-sm-8">
-              <input type="text" pattern="[0-9]*" id="casting_length" name="casting_length" placeholder="Casting Length" class="form-control" required>
-            </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Casting Breadth:</label>
-            <div class="col-sm-8">
-              <input type="text" pattern="[0-9]*" id="casting_breadth" name="casting_breadth" placeholder="Casting Breadth" class="form-control" required>
+          <div class="form-group" id="box_dimension_file">
+            <label class="col-lg-4 control-label">Box Dimension File</label>
+              <div class="col-lg-3">
+              <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
+                <input type="file" id="input_file" multiple="">
+                <div id="box_success">
+                  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                </div>
+                <div id="box_error">
+                  <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span id="inputError2Status" class="sr-only">(error)</span>
+                </div>
+              </div>
+              <p class="help-block col-md-4">File Name: box_dimension.csv</p>
           </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Casting Height:</label>
-            <div class="col-sm-8">
-              <input type="text" pattern="[0-9]*" id="casting_height" name="casting_height" placeholder="Casting Height" class="form-control" required>
+          <div class="form-group" id="grade_upload_file">
+            <label class="col-sm-4 control-label">Grade File</label>
+            <div class="col-sm-4">
+            <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
+               <input type="file" id="grade_file" class="form-control">
+              <div id="grade_success">
+                  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span id="inputSuccess2Status" class="sr-only">(success)</span>
+              </div>
+              <div id="grade_error">
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span id="inputError2Status" class="sr-only">(error)</span>
+              </div>
             </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Box Dimensions:</label>
-            <div class="col-sm-8">
-              <select id="box_size" class="form-control" name="box_dimension">
-                <option disabled selected>Choos Dimensions:</option>
-              </select>  
-              <div class="help-block">Box Dimension: Length X Breadth X Cope Height X Drag Height</div>
-            </div>
-        </div>
-    </div>
-        <div class="col-sm-5 form-horizontal">
-          <div class="form-group">
-          <label class="col-sm-4 control-label">Quantity:</label>
-            <div class="col-sm-8">
-              <input type="text" pattern="[0-9]*.[0-9]*" name="quantity" id="quantity" placeholder="Quantity" class="form-control" required />
-            </div>
-        </div>
-          
-          <div class="form-group">
-          <label class="col-sm-4 control-label">Type of iron:</label>
-            <div class="col-sm-8">
-              <input type="radio" name="iron" data-name="sg_iron" value="sg_iron" id="iron_new" >SG Iron
-              <input type="radio" name="iron" data-name="pig_iron" value="pig_Iron" id="iron_new1" >Pig Iron              
-            </div>
-            <div class="help-block col-sm-8">Select the Type of iron to see its grade</div>
-        </div>
-          <div class="form-group">
-          <label class="col-sm-4 control-label">Grade:</label>
-            <div class="col-sm-8">
-              <select class="form-control" id="grade" name="grade" required>
-                <option disabled selected>Choose the Grade</option>
-              </select>
-            </div>
-        </div>
-          
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Type of iron:</label>
-            <div class="col-sm-8">
-              <input type="checkbox" name="crca" value="crca" id="crca" required>CRCA
-              <input type="checkbox" name="pig_iron" value="pig_iron" id="pig_iron">Pig Iron
-              <input type="checkbox" name="foundry" value="foundry" id="foundry" required>Foundry R/R
-            </div>
-        </div>
-          
-        <div class="form-group">
-          <label class="col-sm-4 control-label">Sand Mixer Capacity:</label>
-            <div class="col-sm-8">
-              <select class="form-control" id="sand_mixer" name="sand_mixer">
-                <option disabled selected>Choose the sand mixer capacity</option>
-                <option>3000kgs</option>
-                <option>1000kgs</option>
-                <option>500kgs</option>
-              </select>
-            </div>
-        </div>
-        
-             <div class="form-group">
-          <label class="col-sm-4 control-label">Core Weight:</label>
-            <div class="col-sm-8">
-              <input type="text" pattern="[0-9]*" id="core_weight" name="core_weight" placeholder="Core Weight" class="form-control" required>
-            </div>
-        </div>
+            <p class="help-block col-md-4">File Name: grade.csv</p>
           </div>
-        <div class="form-group">
-          
-          <input type="button" id="calculate" value="Get Cast!!"  class="btn btn-primary form-control">
+          <div class="form-group" id="raw_upload_file">
+            <label class="col-sm-4 control-label">Raw Material File</label>
+              <div class="col-sm-4">
+              <input type="text" readonly="" class="form-control floating-label" placeholder="Browse..."> 
+                <input type="file" id="raw_material_file" class="form-control">
+                <div id="raw_success">
+                  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span id="inputSuccess2Status" class="sr-only">(success)</span>
+              </div>
+              <div id="raw_error">
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span id="inputError2Status" class="sr-only">(error)</span>
+              </div>
+              </div>
+              <p class="help-block col-md-4">File Name: raw_material.csv</p>
+          </div>
+        </form>
       </div>
-</form>
     </div>
-    </div>
-  <!--</div>-->
- <div id="get_grade"></div>
- <div id="get_raw_material"></div>
- <div id="display_content"></div>
- <div id="dispale_raw_material"></div>
+       
+    <div class="container">
+      <div class="row">
+     <!--  <div class="jumbotron" id="form">-->
+        <form  method="post" role="form" class="form form-horizontal">
+          <div class="col-md-5 col-md-offset-0" style="float:left">
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Weight:</label>
+              <div class="col-sm-8">
+                <input type="text" pattern="[0-9]*.[0-9]*" name="weight" id="get_weight" placeholder="weight" class="form-control" required >
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Value:</label>
+              <div class="col-sm-8">
+                <select name="casting_weight" class="form-control" id="weight">
+                  <option disabled selected >Select the value</option>
+                  <option>1.1</option>
+                  <option>1.14</option> 
+                  <option>1.2</option>
+                  <option>1.25</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting weight:</label>
+              <div class="col-sm-8">
+                <input type="text" name="cast_value" placeholder="casting weight value" id="cast_value" class="form-control" value="" disabled>
+              </div>
+            </div>
+          
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Length:</label>
+                <div class="col-sm-8">
+                  <input type="text" pattern="[0-9]*" id="casting_length" name="casting_length" placeholder="Casting Length" class="form-control" required>
+                </div>
+            </div>
+          
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Breadth:</label>
+                <div class="col-sm-8">
+                  <input type="text" pattern="[0-9]*" id="casting_breadth" name="casting_breadth" placeholder="Casting Breadth" class="form-control" required>
+              </div>
+            </div>
+          
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Height:</label>
+                <div class="col-sm-8">
+                  <input type="text" pattern="[0-9]*" id="casting_height" name="casting_height" placeholder="Casting Height" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Box Dimensions:</label>
+                <div class="col-sm-8">
+                  <select id="box_size" class="form-control" name="box_dimension">
+                    <option disabled selected>Choos Dimensions:</option>
+                </select>  
+                <div class="help-block">Box Dimension: Length X Breadth X Cope Height X Drag Height</div>
+                </div>
+            </div>
+        </div>
+          <div class="col-sm-5 form-horizontal">
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Quantity:</label>
+                <div class="col-sm-8">
+                  <input type="text" pattern="[0-9]*.[0-9]*" name="quantity" id="quantity" placeholder="Quantity" class="form-control" required />
+                </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Type of iron:</label>
+                <div class="col-sm-8">
+                  <input type="radio" name="iron" data-name="sg_iron" value="sg_iron" id="iron_new" >SG Iron
+                  <input type="radio" name="iron" data-name="pig_iron" value="pig_Iron" id="iron_new1" >Pig Iron  
+                </div>
+                <div class="help-block col-sm-8">Select the Type of iron to see its grade</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Grade:</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="grade" name="grade" required>
+                    <option disabled selected>Choose the Grade</option>
+                </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Type of iron:</label>
+                <div class="col-sm-8">
+                  <input type="checkbox" name="crca" value="crca" id="crca" required>CRCA
+                  <input type="checkbox" name="pig_iron" value="pig_iron" id="pig_iron">Pig Iron
+                  <input type="checkbox" name="foundry" value="foundry" id="foundry" required>Foundry R/R
+                </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Sand Mixer Capacity:</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="sand_mixer" name="sand_mixer">
+                    <option disabled selected>Choose the sand mixer capacity</option>
+                    <option>3000kgs</option>
+                    <option>1000kgs</option>
+                    <option>500kgs</option>
+                  </select>
+                </div>
+            </div>
+          
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Core Weight:</label>
+                <div class="col-sm-8">
+                  <input type="text" pattern="[0-9]*" id="core_weight" name="core_weight" placeholder="Core Weight" class="form-control" required>
+                </div>
+            </div>
+          </div>
+            <div class="form-group">
+              <input type="button" id="calculate" value="Get Cast!!"  class="btn btn-primary form-control">
+            </div>
+          </form>
+        </div>
+      </div>
+   <!-- </div>-->
+    
+    <div id="get_box_dimension"></div>
+    <div id="get_grade"></div>
+    <div id="get_raw_material"></div>
+    <div id="display_content"></div>
+    <div id="display_raw_material"></div>
 	</body>
 </html>

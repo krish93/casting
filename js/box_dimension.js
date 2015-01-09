@@ -1,4 +1,5 @@
 $("document").ready(function () {
+    
   var file_lines = [], row_index, length_index, breadth_index, cope_height_index, drag_height_index, avl_length_index, avl_breadth_index, length = [], breadth = [], cope_height = [], drag_height = [], avl_length = [], avl_breadth = [];
   //Finds whether the heading strings are present
   function findHit(str) {
@@ -125,13 +126,13 @@ $("document").ready(function () {
   {
     var insert_box_dimension_start="<option ";
     var insert_box_dimension_end="</option>";
+    
     for(i=0;i<length.length;i++)
     {
        
       $("#box_size").append(insert_box_dimension_start+"data-avl-length='"+avl_length[i].replace(/\"/g,'')+"' data-avl-breadth='"+avl_breadth[i].replace(/\"/g,'')+"' >" +length[i].replace(/\"/g,'')+"X"+breadth[i].replace(/\"/g,'')+"X"+cope_height[i].replace(/\"/g,'')+"X"+drag_height[i].replace(/\"/g,'')+insert_box_dimension_end);
-    } 
   }
-  
+  }
   //Storing details of the file
   function inferFile()
   {
@@ -139,29 +140,48 @@ $("document").ready(function () {
      
     extractCategories(length_index,breadth_index,cope_height_index,drag_height_index,avl_length_index,avl_breadth_index);
     appendDimension();
-    //createCategoriesMenu();
-    //createDescriptionView();
+    
   }
-  
+  $("#box_success").hide();
+  $("#box_error").hide();
   $('#input_file').on('change', function(){
     var file = this.files[0];
-
     var reader = new FileReader();
-    reader.onload = function(progressEvent){
-      // Entire file
-      main_file_data = this.result;
-      // By lines
-      var lines = this.result.split('\n');
-      for(var line = 0; line < lines.length; line++){
-        
-        file_lines.push(lines[line]);
+      reader.readAsText(file);
+    if(file.name  === "box_dimension.csv")
+    {
+      $("#box_error").hide();
+      $("#error-message").hide();
+      $("#input_file").prop('disabled', true);
+      if($("#box_dimension_file").hasClass("has-error"))
+      {
+        $("#box_dimension_file").removeClass("has-error");
       }
-        
-     
-     
+      $("#box_dimension_file").addClass("has-success");
+      $("#box_dimension_file").addClass("has-feedback");
+      $("#box_success").show();
+      
+      reader.onload = function(progressEvent){
+        main_file_data = this.result;
+        var lines = this.result.split('\n');
+        for(var line = 0; line < lines.length; line++){
+          file_lines.push(lines[line]);
+        }
         inferFile();
-    };
-    reader.readAsText(file);
+      };
+      console.log("changed");
+    }
+    else{
+      $("#box_success").hide();
+      if($("#box_dimension_file").hasClass("has-success"))
+      {
+        $("#box_dimension_file").removeClass("has-success");
+      }
+      $("#box_dimension_file").addClass("has-error");
+      $("#box_dimension_file").addClass("has-feedback");
+      $("#box_error").show();
+      $("#error-message").html("<div class='alert alert-danger' role='alert'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span class='sr-only'>Error:</span>Uploaded Wrong File</div>'");
+    }
   });
   
   $("#weight").change(function(){
