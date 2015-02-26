@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <title>Casting Tool Calculator</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/custom.css"/>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="dist/js/ripples.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/js/material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/typeahead.min.js"></script>
+		<script src="js/jquery.csv-0.71.js"></script>
+    <script src="js/box_dimension.js"></script>
+    <script src="js/print_table.js"></script>
+    <script src="js/labour_cost.js"></script>    
+    <script src="js/calculateRawMaterialCost.js"></script>
+    <script src="js/calculation.js"></script>
+    <script src="js/get_grade.js"></script>
+    <script src="js/get_raw_material.js"></script>
+    <script src="js/tableToExcel.js"></script>
+    <script src="jspdf.debug.js"></script>
+    <script src="js/tableToPdf.js"></script>
+    <style>
+      .small-font
+      {
+        font-size: 18px;
+      }
+    </style>
+    <script>
+		  $("document").ready(function() { 
+        $("#raw_material_content").hide();
+        $("#grade_content").hide();
+        $("#box_dimension_content").hide();
+        $("#display_jumbotron").hide();
+        $("#preview_button").hide();
+        $("#json").hide();
+        $("#level_success").hide();
+        $("#level_error").hide();
+        $("#power_success").hide();
+        $("#power_error").hide();
+        $("#disa_success").hide();
+        $("#disa_error").hide();
+        $("#new_weight").hide();
+        $("#new_sand_mixer").hide();
+        $("#reload_button").click(function(){
+          location.reload(true);
+        });
+        $.material.init();
+
+        $('#display_dicv_good_cast_btn').click(function(){
+          console.log("clicked btn");
+          $('#display_dicv_good_cast').fadeToggle(100);
+          var body = $("html, body");
+          var height = $('body').height();
+          console.log(height);
+          body.animate({scrollTop:height}, '3000', 'swing', function() { });
+        })
+        for(var i=2010;i<=2020;i++)
+        {
+          $("#year").append("<option>"+i+"</option>")
+        }
+        for(var i=500;i<=1400;i+=50)
+        {
+          $("#length_size").append("<option data-avl-length='"+(i-80)+"'>"+i+"</option>")
+        }
+        for(var i=450;i<=1200;i+=50)
+        {
+          $("#breadth_size").append("<option data-avl-breadth='"+(i-80)+"'>"+i+"</option>")
+        }
+        for(var i=500;i<=1400;i+=50)
+        {
+          $("#new_length_size").append("<option data-avl-length='"+(i-80)+"'>"+i+"</option>")
+        } 
+        for(var j=450;j<=1200;j+=50)
+        {
+          $("#new_breadth_size").append("<option data-avl-breadth='"+(j-80)+"'>"+j+"</option>")
+        }
+        for(var i=200;i<=400;i+=10)
+        {
+          $("#drag_height_size").append("<option>"+i+"</option>");
+          $("#cope_height_size").append("<option>"+i+"</option>");
+          $("#new_drag_height_size").append("<option>"+i+"</option>");
+          $("#new_cope_height_size").append("<option>"+i+"</option>");
+        }
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#get_weight").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+          }
+        });
+        $("#casting_length").keyup(function (evt) {
+             var ret=verify(evt);
+              if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#casting_breadth").keyup(function (evt) {
+              var ret=verify(evt);
+              if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#casting_height").keyup(function (evt) {
+              var ret=verify(evt);
+              if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#quantity").keyup(function (evt) {
+              var ret=verify(evt);
+              if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#core_weight").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#quantity").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#yield").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#core_mix").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#space_cost").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#interest").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#expenses").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#rejection").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","#66afe9"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        function verify(evt)
+        {
+          var charCode = (evt.which) ? evt.which : event.keyCode; 
+          if ((charCode>=65 && charCode <=90 ) || charCode==32)
+          {
+            $("#error-message").show();
+            $("#error-message").html("<div class='alert alert-dismissable alert-danger'><button class='close' type='button' data-dismiss='alert'>&times;</button></span><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span> Enter Only Numbers</span></div>")
+            return false;
+          }
+          $("#error-message").hide();
+          return true;
+                
+        }
+        $("#file_button").mouseenter(function(){
+          $("#file_button").css("cursor","pointer");
+          $("#file_button").css("background","rgba(0,0,0,0.4)");
+        });
+        $("#file_button").mouseleave(function(){
+          $("#file_button").css("background","rgba(0,0,0,0)");
+        });
+        $("#reload_button").mouseenter(function(){
+          $("#reload_button").css("cursor","pointer");
+          $("#reload_button").css("background","rgba(0,0,0,0.4)");
+        });
+        $("#reload_button").mouseleave(function(){
+          $("#reload_button").css("background","rgba(0,0,0,0)");
+        });
+        $("#download_button").mouseenter(function(){
+          $("#download_button").css("cursor","pointer");
+          $("#download_button").css("background","rgba(0,0,0,0.4)");
+        });
+        $("#download_button").mouseleave(function(){
+          $("#download_button").css("background","rgba(0,0,0,0)");
+        });
+        $("#preview_button").mouseenter(function(){
+          $(this).css("cursor","pointer");
+          $(this).css("background","rgba(0,0,0,0.4)");
+        });
+        $("#preview_button").mouseleave(function(){
+          $(this).css("background","rgba(0,0,0,0)");
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        //$("#download_button").attr("disabled","disabled").off("click");
+         $('#back-to-top').click(function(){
+          var body = $("html, body");
+          body.animate({scrollTop:0}, '3000', 'swing', function() { });
+        })
+         $("#pointer-back-to-top").hover(function(){
+          $(this).css("cursor","pointer");
+         });
+         $("#excel_button").mouseenter(function(){
+          $("#excel_button").css("cursor","pointer");
+          $("#excel_button").css("background","rgba(0,0,0,0.4)");
+        });
+        $("#excel_button").mouseleave(function(){
+          $("#excel_button").css("background","rgba(0,0,0,0)");
+        });
+        $("#table_button").mouseenter(function(){
+          $("#table_button").css("cursor","pointer");
+          $("#table_button").css("background","rgba(0,0,0,0.4)");
+        });
+        $("#table_button").mouseleave(function(){
+          $("#table_button").css("background","rgba(0,0,0,0)");
+        });
+         $("#download_button").click(function(){
+         
+console.log("in");
+    var pdf = new jsPDF('p', 'pt', 'letter');
+    // source can be HTML-formatted string, or a reference
+    // to an actual DOM element from which the text will be scraped.
+    source = $('.disp')[0];
+    source1=$('.disp')[1];
+    console.log($('.disp')[1]);
+    console.log(source);
+
+    // we support special element handlers. Register them with jQuery-style 
+    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+    // There is no support for any other type of selectors 
+    // (class, of compound) at this time.
+    specialElementHandlers = {
+        // element with id of "bypass" - jQuery style selector
+        '#bypassme': function (element, renderer) {
+            // true = "handled elsewhere, bypass text extraction"
+            return true
+        }
+    };
+    margins = {
+        top: 10,
+        bottom: 60,
+        left: 40,
+        width: 522
+    };
+    // all coords and widths are in jsPDF instance's declared units
+    // 'inches' in this case
+    pdf.fromHTML(
+    source, // HTML string or DOM elem ref.
+    margins.left, // x coord
+    margins.top, { // y coord
+        'width': margins.width, // max width of content on PDF
+        'elementHandlers': specialElementHandlers
+    },
+
+    function (dispose) {
+        // dispose: object with X, Y of the last line add to the PDF 
+        //          this allow the insertion of new lines after html
+        pdf.save($("#part_no").val()+'.pdf');
+    }, margins);
+});
+   
+    
+      });
+    
+		</script>
+	</head>
+	<body>
+	<!--Header-->
+  <div class="navbar navbar-default navbar-fixed-top" style="background-color:#2A5B84">
+   <div class="container-fluid">
+	  <div class="navbar-header">
+      <a class="navbar-brand navbar-left-heading">COST ENGINEERING-DICV</a>
+      <a class="navbar-brand-center">
+        CASTING TOOL CALCULATOR
+      </a>
+      <!--
+      <a class="navbar-brand" href="index.html" style="background:white">
+        <img width="100" height="100" alt="Brand" src="barathbenz.png" style="margin-top:-15px;">
+      </a>
+		  <div class="navbar-brand text-right" style="color:white"><h5 style="color:white;margin-right:55%;margin-top:10px;">Cost Engineering</h5><h3 style="margin-top:25px">&nbsp;Casting Cost Calculator</h3></div>  
+      -->
+	  </div>
+    <!--
+    <div id="file_button" class="navbar-brand navbar-right" style="color:white;" data-toggle='modal' data-target='.upload-modal-sm' aria-hidden="true">
+      <span data-toggle='modal' data-target='.upload-modal-sm' class="glyphicon glyphicon-th" style="font-size:18px;margin-top:25px"></span>&nbsp;Upload
+    </div>
+    <div id="reload_button" class="navbar-brand navbar-right" style="color:white;margin-right:10px;" data-toggle='tooltip' data-placement='bottom' title='Reload' data-original-title='Reload'>
+    <span class="glyphicon glyphicon-repeat" id="back" style="margin-top:25px;"></span>&nbsp;Reload
+    </div>
+    <div id="download_button" class="navbar-brand navbar-right" style="color:white;margin-right:10px;" data-toggle='tooltip' data-placement='bottom' title='Download as Pdf' data-original-title='Download as Pdf'>
+    <span class="glyphicon glyphicon-download-alt" style="margin-top:25px"></span>&nbsp;Pdf
+    </div>
+    <div id="excel_button" class="navbar-brand navbar-right" style="color:white;margin-right:10px;" data-toggle='tooltip' data-placement='bottom' title='Download as Excel' data-original-title='Download as Excel' onclick="TableToExcel('display_content')">
+    <span class="glyphicon glyphicon-cloud-download " style="margin-top:25px"></span>&nbsp;Excel
+    </div>
+    <div id="preview_button" class="navbar-brand navbar-right" style="color:white;margin-right:10px;" data-toggle='tooltip' data-placement='bottom' title='Preview' data-original-title='Preview'>
+    <a style='text-decoration:none'><i id='preview' class='glyphicon glyphicon-picture' style='font-size:25px;color:white;margin-top:22px;' data-toggle='modal' data-target='.bs-example-modal-lg'></i></a>&nbsp;Preview
+    </div>
+  -->
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="#" id="preview_button" class="header-menu" data-toggle='tooltip' data-placement='bottom' title='Preview' data-original-title='Preview'>
+            <span class="glyphicon glyphicon-picture"></span> Preview
+          </a>
+        </li>
+        <li>
+          <a href="#" id="excel_button" class="header-menu" data-toggle='tooltip' data-placement='bottom' title='Download as Excel' data-original-title='Download as Excel' onclick="TableToExcel('display_content')">
+            <span class="glyphicon glyphicon-download-alt"></span> Download(Excel)
+          </a>
+        </li>
+        <li>
+          <a href="#" id="download_button" class="header-menu" data-toggle='tooltip' data-placement='bottom' title='Download as Pdf' data-original-title='Download as Pdf'>
+            <span class="glyphicon glyphicon-download-alt"></span> Download(PDF)
+          </a>
+        </li>
+        <li>
+          <a href="#" id="reload_button" class="header-menu" data-toggle='tooltip' data-placement='bottom' title='Reload' data-original-title='Reload'>
+            <span class="glyphicon glyphicon-repeat"> Reload</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="file_button" class="header-menu" data-toggle='modal' data-target='.upload-modal-sm' aria-hidden="true">
+            <span class="glyphicon glyphicon-th"></span> Upload
+          </a>
+        </li>
+      </ul>
+	  </div>
+
+	</div>
+  <div class="back-to-top-sidebar">
+    <button class="btn btn-warning" id="back-to-top"><span class="glyphicon glyphicon-arrow-up"></span></button>        
+  </div>
+
+
+  <!-- Secondary header starts-->
+  <!--
+  <div class="row">
+    <div class="container">
+      <div class="col-xs-8 col-xs-offset-2" style="margin-top:100px;">
+        <div class="secondary-header-wrapper">
+
+            <div class="secondary-header-sidebar secondary-header-sidebar-left">
+
+            </div>
+
+            <div class="secondary-header-logo">
+
+            </div>
+            <div class="secondary-header-sidebar secondary-header-sidebar-right">
+
+            </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+-->
+  <!-- Secondary header ends-->
+
+
+  <!--Content-->
+	<div class="container" style="margin-top:100px">
+    <!--Error Message-->
+    <div class="row">
+      <p id="error-message" class="col-sm-12" style="margin-top:10px;"></p>
+    </div>
+   <!-- <button type="button" class="btn btn-primary"  id="back" style="margin-bottom:10px;">
+      <span class="glyphicon glyphicon-repeat"></span>&nbsp;Reload
+    </button>-->
+    
+    <div class="row ">
+
+     <div class="col-md-6">   
+
+        <div id="form">
+          <div class="row">
+            <!---
+            <div class="well text-center" style="background:rgba(0, 61, 100, 1);color:white">
+              <h5>Input</h5>
+              <div id="table_button" data-toggle='tooltip' data-placement='bottom' title='View Input Data' data-original-title='View Input Data' style="float:right">
+                <span class="pull-right">
+                  <span  class="glyphicon glyphicon-inbox" id="table_view"   style="margin-top:-25px;float:right" data-toggle='modal' data-target='.table-modal-lg' aria-hidden="true"></span>
+                </span>
+              </div>
+            </div>-->
+            <div class="row" style="margin-bottom:10px;">
+              <div class="container-fluid">
+                <ul class="nav nav-pills nav-stacked">
+                  <li class="active">
+                    <a href="#">
+                      <span class="pull-right">
+                        <span  class="glyphicon glyphicon-inbox" id="table_view" data-toggle='modal' data-target='.table-modal-lg' aria-hidden="true"></span></span>
+                      <center>Input</center>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <center>Casting Input Details</center>
+              </div>
+              <div class="panel-body">
+                <div class="form-horizontal">
+              <fieldset>
+                <!--<legend style="color:white"><center>Casting Input Details</center></legend>-->
+                <!--Part Number-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Part No</label>
+                  <div class="col-sm-6">
+                      <input type="text" name="part_no" id="part_no" class="form-control">
+                  </div>
+                </div>
+                <!--Part Name-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Part Name</label>
+                  <div class="col-sm-6">
+                    <input type="text" name="part_no" id="part_name" class="form-control">
+                  </div>
+                </div>
+                <!--Type of Cast Iron-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Type of Cast Iron</label>
+                  <div class="col-md-6">
+                    <div>
+                      <input type="radio" name="iron" data-name="sg_iron" value="sg_iron" id="iron_new">&nbsp;SG Iron
+                    </div>
+                    <div>
+                      <input type="radio" name="iron" data-name="gray_iron" value="gray_iron" id="iron_new1" >&nbsp;Gray Iron  
+                    </div>
+                  </div>
+                </div>
+                <!--Grade-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Grade</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="grade" name="grade" required>
+                    <option disabled selected>Grade</option>
+                </select>
+                  </div>
+                </div>
+                <!--Finished Weight-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Finished Weight (kgs)</label>
+                  <div class="col-md-6">
+                    <input type="text" pattern="[0-9]*.[0-9]*" name="weight" id="get_weight" class="form-control" required >
+                  </div>
+                </div>
+                <!--Machining Allowance-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label" id='machine_name'>Machining Allowance</label>
+                  <div class="col-md-6">
+                    <select name="casting_weight" class="form-control" id="weight">
+                    <option disabled selected >Select the value</option>
+                    <option>1.1</option>
+                    <option>1.14</option> 
+                    <option>1.2</option>
+                    <option>1.25</option>
+                    <option>Others</option>
+                  </select>
+                  <br>
+                  <input type='text' id="new_weight" placeholder="Allowance" class="form-control">
+                  </div>
+                </div>
+                <!--Casting Weight-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Casting Weight (kgs)</label>
+                  <div class="col-md-6">
+                    <input type="text" name="cast_value"  id="cast_value" class="form-control" value="" disabled>
+                  </div>
+                </div>
+                <!--Core Weight-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Core Weight(kgs)</label>
+                  <div class="col-md-6">
+                    <input type="text" pattern="[0-9]*" id="core_weight" name="core_weight" class="form-control" required>
+                  </div>
+                </div>
+                <!--Yield-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Yield %</label>
+                  <div class="col-md-6">
+                    <input type="text" pattern="[0-9]*.[0-9]*" name="yield" id="yield" class="form-control" required />
+                  </div>
+                </div>
+                <!--Rejection-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Rejection %</label>
+                  <div class="col-md-6">
+                    <input type="text" id="rejection" class="form-control">
+                  </div>
+                </div>
+                <!--Dimensions-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Casting Dimensions(mm) (LxBxH)</label>
+                    <div class="col-md-3">
+                      <input type="text" pattern="[0-9]*" id="casting_length" name="casting_length" placeholder="      L" class="form-control" required>
+                    </div>
+                    <div class="col-md-3 wid">
+                      <input type="text" pattern="[0-9]*" id="casting_breadth" name="casting_breadth" placeholder="      B" class="form-control" required>
+                    </div>
+                    <div class="col-md-3 wid">
+                      <input type="text" pattern="[0-9]*" id="casting_height" name="casting_height" placeholder="      H" class="form-control" required>
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label class="col-sm-4 control-label">Surface Area</label>
+                  <div class="col-md-6">
+                    <input type="text" id="surface_area" class="form-control">
+                  </div>
+                </div>
+              </fieldset>
+              </div>
+            </div>
+            </div>
+          </div>
+
+
+        
+          <div class="row">
+            <div class="panel panel-primary">
+              <div class="panel-heading"><center>Equipment Details</center></div>
+              <div class="panel-body">
+                <div class="form-horizontal">
+              <fieldset>
+                <!--Furnace Capacity-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Furnace Capacity</label>
+                  <div class="col-sm-6">
+                    <input type="text" pattern="[0-9]*.[0-9]*" name="quantity" id="quantity" class="form-control" required />
+                  </div>
+                </div>
+                <!--Sand Mixer Capacity-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Sand Mixer Capacity</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="sand_mixer" name="sand_mixer">
+                      <option disabled selected>SandMixer</option>
+                      <option>3000kgs</option>
+                      <option>1000kgs</option>
+                      <option>500kgs</option>
+                      <option>Others</option>
+                    </select>
+                    <br>
+                  <input type='text' id="new_sand_mixer" placeholder="Sand Mixer" class="form-control">
+                  </div>
+                </div>
+                <!--Core Mixer -->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Core Sand Mixer Capacity</label>
+                  <div class="col-sm-6">
+                    <input type="text" pattern="[0-9]*" id="core_mix" name="core_mix" class="form-control" required>
+                  </div>
+                </div>
+                <!--Interest of Raw Material-->
+                <div class="form-group" style="display:none">
+                  <label class="col-sm-4 control-label">Interest of Raw Material (%)</label>
+                  <div class="col-sm-6">
+                    <input type="hidden" id="interest" class="form-control" value="12">
+                  </div>
+                </div>
+                <!--Sand Cost-->
+                <div class="form-group" style="display:none">
+                  <label class="col-sm-4 control-label">Space Cost (Per.Sq.m)</label>
+                  <div class="col-sm-6">
+                    <input type="hidden" id="space_cost" class="form-control" value="215">
+                  </div>
+                  </div>
+                  <div class="form-group">
+                  <label class="col-sm-4 control-label">Year</label>
+                  <div class="col-sm-6">
+                  <select class="form-control" id="year" name="year">
+                  <option disabled selected>year</option>
+                </select>
+                </div>
+                </div>
+                <!--Box Dimensions-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Box Dimensions (mm)</label>
+                  <div class="col-sm-6">
+                    <select id="length_size" class="form-control">
+                      <option disabled selected>Length</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6 col-sm-offset-4" >
+                    <select id="breadth_size" class="form-control">
+                      <option disabled selected>Width</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6 col-sm-offset-4" >
+                    <select id="cope_height_size" class="form-control">
+                      <option selected disabled>CopeHeight</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6 col-sm-offset-4">
+                    <select id="drag_height_size" class="form-control">
+                      <option selected disabled>Drag Height</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+              </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="panel panel-primary">
+              <div class="panel-heading"><center>Material</center></div>
+              <div class="panel-body">
+              <div class="form-horizontal">
+              <fieldset>
+                <!--Type of Materials-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Type of Materials</label>
+                  <div class="col-sm-6">
+                    <div>
+                    <input type="checkbox" name="crca" value="crca" id="crca" required>&nbsp;CRCA
+                    </div>
+                    <div>
+                    <input type="checkbox" name="pig_iron" value="pig_iron" id="pig_iron">&nbsp;Pig Iron
+                    </div>
+                    <div>
+                    <input type="checkbox" name="foundry" value="foundry" id="foundry" required>&nbsp;Foundry R/R
+                    </div>
+                    <div id="gray_bore" style="display:none">
+                    <input type="checkbox" name="boring" value="boring" id="boring" required>&nbsp;Boring
+                    </div>
+                  </div>
+                </div>
+                <!--<div class="form-group">
+                  <label class="col-sm-4 control-label">Purchase Expenses</label>
+                  <div class="col-sm-5">-->
+                   <input type="hidden" id="expenses" class="form-control">
+                  <!--</div>
+                </div>-->
+                <!--Power State-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Power State</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="state"   >
+                      <option disabled selected>Select State</option>
+                      <option data-name="maharastra">Maharastra</option>
+                      <option data-name="tamilnadu">Tamilnadu</option>
+                      <option data-name="andrapradesh">Andhra Pradesh</option>
+                      <option data-name="karnataka">Karnataka</option>
+                      <option data-name="gujarat">Gujarat</option>
+                      <option data-name="delhi">Delhi</option>
+                      <option data-name="madhyapradesh">Madhya Pradesh</option>
+                      <option data-name="kolkata">Kolkatta</option>
+                    </select>
+                  </div>
+                </div>
+                <!--EB and Private-->
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">EB</label>
+                  <div class="col-sm-4">
+                    <input type="text" id="eb_power" class="form-control" maxlength="3">
+                  </div>
+                  <label class="col-sm-2 control-label">Private</label>
+                  <div class="col-sm-4">
+                    <input type="text" id="private_power" class="form-control">
+                  </div>
+                </div>
+                <!--Levels-->
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Levels</label>
+                  <div class="col-sm-6">
+                    <div>
+                    <input type="radio" name="level_0" value="level 0" id="level_0" data-toggle='modal' data-target='.upload-modal-lg' required>&nbsp;Level 0
+                    </div>
+                    <div>
+                    <input type="radio" name="level_0" value="level 1" id="level_1" data-toggle='modal' data-target='.upload-modal-lg'>&nbsp;Level 1
+                    </div>
+                    <div>
+                    <input type="radio" name="level_0" value="level 2" id="level_2" required data-toggle='modal' data-target='.upload-modal-lg'>&nbsp;Level 2
+                    </div>
+                    <div>
+                    <input type="radio" name="level_0" value="level 3" id="level_3" required data-toggle='modal' data-target='.upload-modal-lg'>&nbsp;Level 3
+                    </div>
+                    <div>
+                    <input type="radio" name="level_0" value="level 4" id="level_4" required data-toggle='modal' data-target='.upload-modal-lg'>&nbsp;Level 4
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="container-fluid">
+              <div class="col-md-8 col-md-offset-2"> 
+                <div class="form-group">
+                  <button  class="btn btn-warning form-control shadow-z-2" id="calculate">Get Cast!!</button>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div id="display_content" class="col-md-6 disp">
+   <!-- <legend class="well text-center" style="font-size:20px;background:rgba(0, 61, 100, 1);color:white"><b>Result</b></legend>-->
+
+    <div class="row">
+      <div class="container-fluid">
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active">
+            <a href="#">
+              <center>Summary</center>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="main_table">
+      <h3 id='head_raw_material_cost' class='text-center' >A - Charge Mix Cost </h3>
+      <table class='table table-bordered table-hover' id='raw_material_cost' >
+        <tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr>
+        <tr><td>CRCA</td><td></td><td></td><td></td></tr>
+        <tr><td>Pig Iron</td><td></td><td></td><td></td></tr>
+        <tr><td>Foundry R/R</td><td></td><td></td><td></td></tr>
+        <tr><td>Total</td><td></td><td></td><td></td></tr>
+        <tr><td>Coke</td><td></td><td></td><td></td></tr>
+        <tr><td>Fe-Si</td><td></td><td></td><td></td></tr>
+        <tr><td>Fe-Mn</td><td></td><td></td><td></td></tr>
+        <tr><td>Copper</td><td></td><td></td><td></td></tr>
+        <tr><td>Graphite</td><td></td><td></td><td></td></tr>
+        <tr><td>Total</td><td></td><td></td><td></td></tr>
+      </table>
+      <h3 id='head_treat' class="text-center">B - Treatment Cost </h3>
+      <table class='table table-bordered table-hover well test' id='display_equipment_detail' >
+      <tr><th>Treatment Cost Details</th><th>kgs</th><th>Rs/Kg </th><th>Total Cost(INR)</th></tr>
+      <tr><td>fe-si-mg</td><td></td><td></td><td></td></tr>
+      <tr><td>cov_steel</td><td></td><td></td><td></td></tr>
+      <tr><td>preconditioning_inoculant</td><td></td><td></td><td></td></tr>
+      <tr><td>stream_inoculant</td><td></td><td></td><td></td></tr>
+      <tr><td>Total</td><td></td><td></td><td></td></tr>
+      <!--<tr><td>Total Metal Weight (kgs)</td><td></td><td></td><td></td></tr>-->
+      </table>
+      <table class='table table-bordered table-hover well test' id='treat_disp_detail'>
+      <tr><td>Treatment Cost per.kg</td><td></td></tr>
+      </table >
+      <h3 id='head_metal' class="text-center">Metallics Cost</h3>
+      <table class='table table-bordered table-hover well test' id='display_metallic_detail' >
+      <tr><td>R/R Credit Back @ 98% (kgs)</td><td></td><td></td><td></td></tr>
+      <tr><td>Metallics(A) Cost incl. R/R (INR)</td><td></td><td></td><td></td></tr>
+      <tr><td>Less R/R Value (INR)</td><td></td><td></td><td></td></tr>
+      <tr><td>Metallics Cost Excl. R/R (INR)</td><td></td><td></td><td></td></tr>
+      <tr><td>Total Metallics Cost (A+B) (INR)</td><td></td><td></td><td></td></tr>
+      </table>
+      <h3 id='head_dis_sand_cost'  class='text-center'>Sand Cost</h3>
+      <table class='table table-bordered table-hover well test' id='dis_sand_cost' >
+        <tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr>
+        <tr><td>New Sand</td><td></td><td></td><td></td></tr>
+        <tr><td>Bentonite</td><td></td><td></td><td></td></tr>
+        <tr><td>Lustron</td><td></td><td></td><td></td></tr>
+      <!--  <tr><td>Total</td><td></td><td></td><td></td></tr>
+        <tr><td>Yield(%)</td><td></td><td></td><td></td></tr>
+        <tr><td>Lm(kgs)</td><td></td><td></td><td></td></tr>
+        <tr><td>Good Casting</td><td></td><td></td><td></td></tr>-->
+        <tr><td>Sand Cost per Kg of Good Casting </td><td></td><td></td><td></td></tr>
+      </table>
+      <h3 id='head_dis_cold_cost' class='text-center' >Cold Box Core Cost</h3>
+      <table class='table table-bordered table-hover well test' id='dis_cold_cost' >
+        <tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr>
+        <tr><td>Washed Sand</td><td></td><td></td><td></td></tr>
+        <tr><td>Resin</td><td></td><td></td><td></td></tr>
+        <tr><td>Hardener</td><td></td><td></td><td></td></tr>
+        <tr><td>Amine</td><td></td><td></td><td></td></tr>
+        <tr><td>Total</td><td></td><td></td><td></td></tr>
+      </table>
+      </div>
+
+
+    <!--Dimension-->
+    <div id="get_box_dimension"></div>
+    <!--Grade-->
+    <div id="get_grade"></div>
+    <!--Raw Material-->
+    <div id="get_raw_material"></div>
+
+      <div class="row">
+        <div class="row">
+          <div class="good_cast" id="display_good_cast">
+            <h3 id='head_good_casting' class='text-center ' style="width:500px">Cost /Kg of Good Casting</h3>
+              <table class='table table-bordered table-hover well test' id='cost_good_casting' style="width:500px">
+                <tr><th>Material</th><th>Value (INR/Kg)</th></tr>
+                <tr><td>Metallics Cost</td><td> </td></tr>
+                <tr><td>Mould R/M Cost</td><td> </td></tr>
+                <tr><td>Core R/M Cost</td><td> </td></tr>
+                <tr><td>Machine Cost</td><td> </td></tr>
+                <tr><td>Labour Cost</td><td> </td></tr>
+                <tr><td>Power Cost</td><td> </td></tr>
+                <tr><td>Purchased Parts Cost</td><td> </td></tr>
+                <tr><td>Sub Total Cost</td><td> </td></tr>
+                <tr><td>ICC on RM @2%</td><td> </td></tr>
+                <tr><td>Plant OverHead @ 5%</td><td> </td></tr>
+                <tr><td>SGA @5%</td><td> </td></tr>
+                <tr><td>Profit on RM @1%</td><td> </td></tr>
+                <tr><td>Profit on Manufacturing Cost @10%</td><td> </td></tr>
+                <tr><td>Rejection</td><td> </td></tr> 
+                <tr><td>Total</td><td> </td></tr>
+              </table>
+          </div>
+        </div>
+
+        <div class="row last-row">
+          <div class="row">
+            <span class="pull-right">
+              <button class="btn btn-success" id="display_dicv_good_cast_btn"><span class="glyphicon glyphicon-arrow-down" ></span></button>
+            </span>
+          </div>
+          <div class="dicv_good_cast" id="display_dicv_good_cast">
+            <h3 id='head_dicv' class='text-center '>DICV Cost /Kg of good Casting</h3>
+              <table class='table table-bordered table-hover well test' id='dicv_cost_good_casting'>
+                <tr><th>Materials</th><th>Values</th></tr>
+                <tr><td>Raw Material Cost</td><td> </td></tr>
+                <tr><td>Purchased parts Cost</td><td> </td></tr>
+                <tr><td>Machine Cost</td><td> </td></tr>
+                <tr><td>Labour Cost</td><td> </td></tr>
+                <tr><td>Power Cost</td><td> </td></tr>
+                <tr><td>Misc Plant OverHead</td><td> </td></tr>
+                <tr><td>SGA</td><td> </td></tr>
+                <tr><td>RM Markup</td><td> </td></tr>
+                <tr><td>Purchased Parts Mark Up</td><td> </td></tr>
+                <tr><td>Profit on Rm</td><td> </td></tr>
+                <tr><td>Profit on Manufacturing Cost</td><td> </td></tr>
+                <tr><td>Total Cost</td><td> </td></tr>
+              </table>  
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    <!--</div>-->
+    
+    <div class="modal fade upload-modal-sm" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="close" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4  id="label_name" class="text-center">File Upload</h4>
+          </div>
+          <div class="modal-body">
+            <div class="container form-horizontal">
+              <div class="row">
+                <div class="form-group" id="grade_upload_file">
+                  <label class="col-sm-1 control-label">Grade File</label>
+                  <div class="col-sm-3">
+                  <input type="file" id="grade_file"  class="form-control">
+                    <div id="grade_success">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                    </div>
+                    <div id="grade_error">
+                      <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                      <span id="inputError2Status" class="sr-only">(error)</span>
+                    </div>
+                  </div>
+                  <span class="help-block col-md-4">File Name: grade.csv</span>
+                </div>
+                <div class="form-group" id="raw_upload_file">
+                <label class="col-sm-1 control-label">Raw Material File</label>
+                  <div class="col-sm-3">
+                  <input type="file" id="raw_material_file" class="form-control"> 
+                    <div id="raw_success">
+                      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                      <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                  </div>
+                  <div id="raw_error">
+                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="inputError2Status" class="sr-only">(error)</span>
+                  </div>
+                  </div>
+                  <span class="help-block col-md-4">File Name: raw_material.csv</span>
+                  </div>
+                  
+                    <div class="form-group" id="power_upload_file">
+                    <label class="col-sm-1 control-label">Power File</label>
+                      <div class="col-sm-3">
+                        <input type="file" id="power_file" multiple="" class="form-control">
+                        <div id="power_success">
+                          <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                        </div>
+                        <div id="power_error">
+                          <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                          <span id="inputError2Status" class="sr-only">(error)</span>
+                        </div> 
+                    </div>
+                    <span class="help-block col-md-4">File Name: power.csv</span>
+            
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <div class="modal fade upload-modal-lg" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="close" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4  id="upload_label_name" class="text-center">Preview</h4>
+        </div>
+        <div class="modal-body">
+        <div class="container form-horizontal">
+          <div class="row">
+            <div class="form-group" id="level_upload_file">
+            <p id="file-error-message" style="width:70%;margin-left:25px;"></p>
+              <label for="inputFile" class="col-sm-2 control-label">Level File</label>
+                <div class="col-sm-6">
+                  <input type="file" id="inputFile" class="form-control">
+                  <div id="level_success">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                    </div>
+                    <div id="level_error">
+                      <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                      <span id="inputError2Status" class="sr-only">(error)</span>
+                    </div> 
+                </div>
+            </div>
+          </div>
+          
+       
+        <div class="row">
+          <div class="form-group" id="disa_upload_file">
+            <label class="col-sm-2 control-label">DISA File</label>
+            <div class="col-sm-6">
+              <input type="file" id="spec_file" multiple="" class="form-control">
+                <div id="disa_success">
+                  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                </div>
+                <div id="disa_error">
+                  <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span id="inputError2Status" class="sr-only">(error)</span>
+                </div> 
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div> 
+  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="close" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="text-center">Preview</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="form-group col-sm-3">
+                <label class="col-sm-4 control-label">Length</label>
+                  <div class="col-sm-8">
+                    <select id="new_length_size" class="form-control">
+                      <option disabled selected>Choose Length</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <label class="col-sm-4 control-label">Breadth</label>
+                  <div class="col-sm-8">
+                    <select id="new_breadth_size" class="form-control">
+                      <option disabled selected>Choose Breadth</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <button type="button" class="btn btn-primary" id="change_diagram" value="Change">Preview</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-3">
+                <label class="col-sm-4 control-label">Cope Height</label>
+                  <div class="col-sm-8">
+                    <select id="new_cope_height_size" class="form-control">
+                      <option disabled selected>Choose Cope Height</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <label class="col-sm-4 control-label">Length</label>
+                  <div class="col-sm-8">
+                    <select id="new_drag_height_size" class="form-control">
+                      <option disabled selected>Choose Drag Height</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <button type="button" class="btn btn-primary shadow-z-2" id="new_get_cast" value="Change">Get Cast!!</button>
+              </div>
+            </div>
+          </div>
+          <div class="container" id="display_diagram">
+            <div class="row" id="fit_inside"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade table-modal-lg" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="close" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4  id="upload_label_name" class="text-center">Preview</h4>
+        </div>
+        <div class="modal-body">
+          <table id="grade_table" class="table table-bordered table-hover">
+            <h3 class="text-center">Chemical Composition</h3>
+          </table>
+          <table id="raw_table" class="table table-bordered table-hover">
+          <h3 class="text-center" id="table_name">Raw Material</h3>
+          </table>
+          <table id="ed_coat_table" class="table table-bordered table-hover">
+          </table>
+          <table id="power_table" class="table table-bordered table-hover">
+          <h3 class="text-center" >Power Details</h3>
+          </table>
+        </div>
+        <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div> 
+  <footer class="footer" id="footer" style="background:rgb(0, 61, 100)">
+    <div class="container">
+      <p class="text-center" style="color:rgb(171, 199, 223);">Copyright &#169; 2015 Daimler. All rights reserved.</p>
+    </div>
+  </footer>
+	</body>
+</html>
