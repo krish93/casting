@@ -1,0 +1,11 @@
+ID,power_area_of_operation,power_machine,power_output,power_units,power_melting_loss,cranes_name,crane_hoist,crane_lt,crane_ct,crane_total_hp,crane_value,crane_kw,cranw_qty,crane_total_kw,crane_utility,crane_units_per_hour,power_state,power_eb_unit,power_private_tower,factory-space-length,factory-space-breadth,factory-area,external-strore,non-factory-space,sga
+1,Melting,Furnace,4.0375,2565,635.2941176,Melting,15,5,5,25,0.7456,18.64,2,37.28,0.85,31.688,Maharastra,8,9,81,41,3321,111.5,Admin block,1660.5
+2,Auxilliaries,Utilities(Water circulating Unit & Cooling Towers),NA,80,19.81424149,Molding,15,5,5,25,0.7456,18.64,2,37.28,0.5,18.64,Tamilnadu,7,8,,,,,Security,
+3,Moulding (85 Molds Per hr),"Molding Machine, Punch Out, Knockout,Conveyor Belts",4.25,290,71.82662539,Core Shop,10,5,5,20,0.7456,14.912,1,14.912,0.5,7.456,Andhra Pradesh,7.5,7.5,,,,,Canteen,
+4,Sand Plant,"Sand Mixers, Belt Conveyors, Bucket Elevators",24,465,115.1702786,Shot Blasting,10,5,5,20,0.7456,14.912,2,29.824,0.85,25.3504,Karnataka,6,7,,,,,Rest Rooms,
+5,Shot Blasting,"SB Machines,Conveyor,Wedge Cutter",8,100,24.76780186,Fettling,10,5,5,20,0.7456,14.912,2,29.824,0.5,14.912,Gujarat,5.5,7,,,,,Parking lot,
+6,Fettling,"Swing Frame Grinders,Grinding M/c's",10,50,12.38390093,Despatch,10,5,5,20,0.7456,14.912,2,29.824,0.5,14.912,Delhi,7.5,9,,,,,Medical Centre,
+7,Cranes,"Melting, Molding, Core Shop,",NA,112.9584,27.97731269,total,,,,,,,,149.12,,112.9584,Madhya Pradesh,5.5,6,,,,,,
+8,"AC,Lighting ",All Shops,NA,60,14.86068111,,,,,,,,,,,,Kolkatta,7.5,8,,,,,,
+9,"AC,Lighting ,etc",Admin Building,NA,50,12.38390093,,,,,,,,,,,,,,,,,,,,
+10,Total power consumption / Ton of Liquid metal,,,,934.4788607,,,,,,,,,,,,,,,,,,,,

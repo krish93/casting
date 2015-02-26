@@ -1,0 +1,76 @@
+ID,designation,nos,monthly_capacity,type
+1,Managing Director,1,291667,director
+2,Plant Department Head,1,208333,director
+3,Attendants,2,10000,director
+4, Department Head,1,100000,design
+5,CAD/CAM Engineer,1,50000,design
+6,Simulation & 3 D Modelling Engineer,1,41667,design
+7,Patternshop Incharge,1,66667,design
+8,Dimension & Customer Support,1,33333,design
+9,Tooloing Development & PPAP approval,1,41667,design
+10,Department Head,1,83333,production
+11,Melting Incharge,1,50000,production
+12,Moulding Incharge,1,41667,production
+13,Core Shop Incharge,1,41667,production
+14,Fettling Incharge,1,33333,production
+15,Shot Blasting incharge,1,29167,production
+16,Despatch Incharge,1,41667,production
+17,PPC Department Head,1,33333,production
+18, Material handling  team,27,6667,production
+19,Department Head,1,83333,maintenance
+20,Electrical Incharge,1,58333,maintenance
+21,Mechanical Incharge,1,58333,maintenance
+22,Utilities Incharge,1,50000,maintenance
+23,Electrical Shift Engineer,6,33333,maintenance
+24,Mechanical Shift Engineer,9,33333,maintenance
+25,Utilities Shift Engineer,2,33333,maintenance
+26,Attendants,26,12000,maintenance
+27,Department Head,1,8333,qa/qc
+28,Lab Incharge,1,41667,qa/qc
+29,Inspection Incharge,1,33333,qa/qc
+30,Process Control Incharge,1,33333,qa/qc
+31,Lab Engineers,3,25000,qa/qc
+32,Attendants,9,12000,qa/qc
+33,Department Head,1,100000,marketing
+34,Export Business Team Department Lead,1,83333,marketing
+35,Domestic Business Team Department Lead,1,83333,marketing
+36,Export Business Team Executive,3,41667,marketing
+37,Domestic Business Team Executive,3,41667,marketing
+38,Department Head,1,100000,finance
+39,Accounts Incharge,1,50000,finance
+40,Stores Incharge,1,41667,finance
+41,Purchase Incharge,1,50000,finance
+42,Excise Incharge,1,50000,finance
+43,Accounts Staff,5,33333,finance
+44,Stores Staff,5,33333,finance
+45,Purchase Staff,3,33333,finance
+46,Excise Staff,2,33333,finance
+47,Attendants,9,12000,finance
+48,HR-Department Head,1,100000,human_resource
+49,Personnel & Administration Lead,1,83333.33333,human_resource
+50,"Staff Management, Counselling & Training  Lead          ",1,58333,human_resource
+51,Personnel & Admin Staff,5,33333.33333,human_resource
+52,Staff Management & Training Staff,3,33333.33333,human_resource
+53,House Keeping  Team,15,90000,human_resource
+54,Security (Officer) ,1,30000,human_resource
+55,Security (Watchman) ,12,6667,human_resource
+56,Attendants,6,12000,human_resource
+57,Executive PA To MD),1,58333,strategy_planning
+58,Fork lift Operator ,5,70833,other_indirect_labour
+59,Supervisor,22,28000,direct_labour
+60,Operator,170,10000,direct_labour
+61,Skilled,16,12000,direct_labour
+62,purchassed parts cost,0,7.2,purchased
+63,purchase expense,0,5400000,purchase_expense
+64,capacity,0,1500000,capacity
+65,CRCA,30,30,CRCA
+66,Fe-Si-Mg,10,10,Fe-Si-Mg
+67,Fe-Si,6,6,Fe-Si
+68,Fe-Mn,6,6,Fe-Mn
+69,Cov-Steel,8,8,Cov-Steel
+70,Bentonite,15,15,Bentonite
+71,Lustron,15,15,Lustron
+72,Sand,40,40,Sand
+73,Resin,8,8,Resin
+74,Hardener,8,9,Hardener
+75,Amine,8,9,Amine

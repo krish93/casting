@@ -1,0 +1,249 @@
+<div class="row">
+          <div class="col-md-5">
+           <div id="form" class="jumbotron">
+            <div class="form-group">
+              <label class="col-md-4 control-label">Weight: (kgs)</label>
+              <div class="col-md-6">
+                <input type="text" pattern="[0-9]*.[0-9]*" name="weight" id="get_weight" placeholder="weight" class="form-control" required >
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Value:</label>
+              <div class="col-sm-6">
+                <select name="casting_weight" class="form-control" id="weight">
+                  <option disabled selected >Select the value</option>
+                  <option>1.1</option>
+                  <option>1.14</option> 
+                  <option>1.2</option>
+                  <option>1.25</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting weight:(kgs)</label>
+              <div class="col-sm-6">
+                <input type="text" name="cast_value" placeholder="casting weight value" id="cast_value" class="form-control" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Length: (mm)</label>
+                <div class="col-sm-6">
+                  <input type="text" pattern="[0-9]*" id="casting_length" name="casting_length" placeholder="Casting Length" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Breadth: (mm)</label>
+                <div class="col-sm-6">
+                  <input type="text" pattern="[0-9]*" id="casting_breadth" name="casting_breadth" placeholder="Casting Breadth" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Casting Height: (mm)</label>
+                <div class="col-sm-6">
+                  <input type="text" pattern="[0-9]*" id="casting_height" name="casting_height" placeholder="Casting Height" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Length: (mm)</label>
+                <div class="col-sm-6">
+                  <select id="length_size" class="form-control">
+                    <option disabled selected>Choose Length</option>
+                  </select>
+                </div>
+             </div>
+              <div class="form-group ">
+                <label class="col-sm-4 control-label">Breadth:  (mm)</label>
+                <div class="col-sm-6">
+                <select id="breadth_size" class="form-control">
+                  <option disabled selected>Choose Breadth</option>
+                </select>
+                </div>
+              </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Cope Height: (mm)</label>
+              <div class="col-sm-6">
+                <select id="cope_height_size" class="form-control">
+                  <option selected disabled>Choose Cope Height</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Drag Height</label>
+              <div class="col-sm-6">
+                <select id="drag_height_size" class="form-control">
+                  <option selected disabled>Choose Drag Height</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Quantity:</label>
+                <div class="col-sm-6">
+                  <input type="text" pattern="[0-9]*.[0-9]*" name="quantity" id="quantity" placeholder="Quantity" class="form-control" required />
+                </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Yield (%)</label>
+                <div class="col-sm-6">
+                  <input type="text" pattern="[0-9]*.[0-9]*" name="yield" id="yield" placeholder="Yield" class="form-control" required />
+                </div>
+            </div>
+        <!--</div>-->
+        
+        </div>
+          <div class="col-md-5">
+         <!-- <div class="jumbotron">-->
+            
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Type of iron:</label>
+                <div class="col-sm-3 radio radio-primary">
+                <label>
+                  <input type="radio" name="iron" data-name="sg_iron" value="sg_iron" id="iron_new" >SG Iron
+              
+                  </label>
+                  </div>
+                    <div class="col-sm-3 radio radio-primary">
+                  
+                  <label>
+                    
+                    <input type="radio" name="iron" data-name="gray_iron" value="gray_Iron" id="iron_new1" >Gray Iron  
+                  </label>
+                  </div>
+                
+                
+            <!--<div class="help-block col-sm-5">Select the Type of iron to see its grade</div> -->   
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Grade:</label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="grade" name="grade" required>
+                    <option disabled selected>Choose the Grade</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Types:</label>
+                  <input type="checkbox" name="crca" value="crca" id="crca" required>CRCA
+                  <input type="checkbox" name="pig_iron" value="pig_iron" id="pig_iron">Pig Iron
+                  <input type="checkbox" name="foundry" value="foundry" id="foundry" required>Foundry R/R
+                </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Sand Mixer Capacity:</label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="sand_mixer" name="sand_mixer">
+                    <option disabled selected>Choose the sand mixer capacity</option>
+                    <option>3000kgs</option>
+                    <option>1000kgs</option>
+                    <option>500kgs</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Core Mix:</label>
+                <div class="col-sm-6">
+                  <input type="text" pattern="[0-9]*" id="core_mix" name="core_mix" placeholder="Core Mix" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Core Weight:</label>
+                <div class="col-sm-6">
+                  <input type="text" pattern="[0-9]*" id="core_weight" name="core_weight" placeholder="Core Weight" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Year</label>
+              <div class="col-sm-6"> 
+                <select class="form-control" id="year" name="year">
+                  <option disabled selected>Choose the year</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Space Cost(Per.Sq.M)</label>
+              <div class="col-sm-6">
+                <input type="text" id="space_cost" class="form-control" placeholder="Space Cost">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Interest of Raw Material(%)</label>
+                <div class="col-sm-6">
+                  <input type="text" id="interest" placeholder="Interest" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Purchased Expenses</label>
+              <div class="col-sm-6">
+                <input types="text" id="expenses" class="form-control" placeholder="Purchase Expenses">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">State</label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="state" name="sand_mixer">
+                    <option disabled selected>Choose the state</option>
+                    <option data-name="maharastra">Maharastra</option>
+                    <option data-name="tamilnadu">Tamilnadu</option>
+                    <option data-name="andrapradesh">Andhra Pradesh</option>
+                    <option data-name="karnataka">Karnataka</option>
+                    <option data-name="gujarat">Gujarat</option>
+                    <option data-name="delhi">Delhi</option>
+                    <option data-name="madhyapradesh">Madhya Pradesh</option>
+                    <option data-name="kolkata">Kolkatta</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-6">
+                  <label class="col-sm-5 control-label">EB Power</label>
+                  <div class="col-sm-6">
+                  <input type="text" id="eb_power" class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-5 control-label">Private Power</label>
+                  <div class="col-sm-6">
+                  <input type="text" id="private_power" class="form-control">
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Rejection(%)</label>
+              <div class="col-sm-6">
+                <input type="text" id="rejection" class="form-control" placeholder="Rejection">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Types:</label>
+                <div class="row col-sm-6">
+                <div class="radio">
+                  
+                  <label>
+                  <input type="radio" name="level_0" value="level_0" id="level_0" data-toggle='modal' data-target='.upload-modal-lg' required>Level 0
+                  </label>
+                  </div>
+                  <div class=" radio">
+                  <label>
+                  <input type="radio" name="level_0" value="level_0" id="level_1" data-toggle='modal' data-target='.upload-modal-lg'>Level 1
+                  </label>
+                  </div>
+                  <div class="radio">
+                  <label>
+                  <input type="radio" name="level_0" value="level_0" id="level_2" required data-toggle='modal' data-target='.upload-modal-lg'>Level 2
+                  </label>
+                  </div>
+                  <div class="radio">
+                  <label>
+                  <input type="radio" name="level_0" value="level_0" id="level_3" required data-toggle='modal' data-target='.upload-modal-lg'>Level 3
+                  </label>
+                  </div>
+                  <div class="radio">
+                  <label>
+                  <input type="radio" name="level_0" value="level_0" id="level_4" required data-toggle='modal' data-target='.upload-modal-lg'>Level 4
+                  </label>
+                    </div>
+                  </div>
+          <!--</div>-->
+          </div>
+        </div>

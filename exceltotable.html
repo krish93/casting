@@ -1,0 +1,40 @@
+<html>
+	<head>
+	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.csvToTable.js"></script>
+	<script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
+	</head>
+	<script>
+		$("document").ready(function(){
+			$("#file").on('change',function(){
+				var file = this.files[0];
+				var reader = new FileReader();
+			    reader.readAsText(file);
+			    reader.onload = function(){
+			      main_file_data = this.result;
+			      console.log(file);
+			      //spec_file = $.csv.toObjects(main_file_data);
+			      //calculateSpec();
+						var lines=main_file_data.split("\n"),output=[],i;
+						for(i=0;i<lines.length;i++)
+						{
+							if(i==0)
+							{
+								output.push("<tr><th>"+lines[i].slice(0,-1).split(",").join("</th><th>")+"</th><tr>")
+							}
+							else
+							{
+								output.push("<tr><td>"+lines[i].slice(0,-1).split(",").join("</td><td>")+"</td><tr>")
+							}
+						}
+					$("#divID").append(output.join(""));
+			    } 
+			});
+		});
+	</script>
+	<body>
+		<input type="file" id="file">
+		<table id="divID">
+		</table>
+	</body>
+</html>

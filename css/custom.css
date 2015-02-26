@@ -1,0 +1,271 @@
+.sub-category{
+  padding-left:20px;
+}
+@font-face{
+  src:url('../dist/fonts/Material-Design-Icons.woff');
+  font-family: "material";
+}
+@font-face{
+  src:url('../fonts/ubuntu.ttf');
+  font-family: "ubuntu";
+}
+.category-list{
+  display:none;
+  text-transform: capitalize;
+}
+.sub-category-description{
+  padding-left: 30px;
+}
+.category-description{
+  padding-left: 25px;
+}
+.sub-category-display{
+  padding-left:20px;
+  text-decoration: underline;
+}
+#description-menu{
+  text-transform: capitalize;
+}
+td,th
+{
+  text-align: center;
+  font-family: "material";
+}
+td
+{
+  background: white;
+}
+legend
+{
+  background:rgba(0, 61, 100, 1);
+  color:white;
+}
+th
+{
+  /*background: #009587;*/
+  background:rgba(51, 122, 183, 1);
+  color:white;
+  font-size:16px;
+}
+tbody tr:first-child{
+  border-left-border:2px;
+  border-right-border:2px;
+}
+h1,h2,h3,h4,h5{
+  font-family: "material";
+}
+.box
+{
+  width:600px;
+  height:550px;
+  border: 1px solid black;
+  margin-left: 110px; 
+}
+.actual-box
+{
+  margin: 40px;
+  border: 1px solid black;
+  width: 520px;
+  height: 470px;
+}
+.format-box
+{
+  width:160px;
+  float:left;
+  margin-right:10px;
+}
+.dimen-input-box
+{
+ width:174px;
+  float:left;
+  margin-right:2px; 
+}
+.changed-dimen-input-box
+{
+ width:144px;
+  float:left;
+  margin-right:2px; 
+}
+.format-input-box
+{
+  width:87px;
+  float: left;
+  margin-right: 7px;
+}
+.radio-format-box
+{
+  width:225px;
+  float:left;
+}
+.check-format-box
+{
+  width:300px;
+  float:left;
+  margin-right:10px;
+}
+.shadow-z-1 {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+}
+.shadow-z-2 {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+}
+.shadow-z-2-hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.23), 0 10px 30px rgba(0, 0, 0, 0.19);
+}
+.shadow-z-3 {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.23), 0 10px 30px rgba(0, 0, 0, 0.19);
+}
+.shadow-z-4 {
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22), 0 14px 45px rgba(0, 0, 0, 0.25);
+}
+.shadow-z-5 {
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
+}
+body{
+  background-color:  #728290;
+  font-family: "material";
+}
+body .well,
+.container .well,
+.container-fluid .well,
+.jumbotron .well{
+  background: white;
+  /*background:rgb(204, 213, 209);*/
+  padding: 19px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+  border-radius: 2px;
+  border: 0;
+  
+}
+tbody td:first-child
+{
+  color:darkblue;
+  text-align: left;
+}
+#power_table tbody td:first-child
+{
+  color:darkblue;
+  text-align: center;
+}
+h4
+{
+  color:black;
+}
+#canvas2{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+ /* z-index: -3;*/
+ margin-top:-30px;
+
+        }
+#overlay{
+    background: rgba(5, 37, 77, 0.55);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+input[type="text"],input[type="hidden"],select,option
+{
+  background:lightgoldenrodyellow
+}
+#footer {
+   position:fixed;
+   left:0px;
+   bottom:0px;
+   height:45px;
+   width:100%;
+   background:#999;
+}
+#footer p{
+  line-height: 45px;
+}
+
+/* IE 6 */
+* html #footer {
+   position:absolute;
+   top:expression((0-(footer.offsetHeight)+(document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight)+(ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop))+'px');
+}
+#raw_table,#power_table,#grade_table
+{
+  text-transform: capitalize;
+}
+.panel-heading center{
+  font-size:18px;
+}
+.nav center{
+  font-size:18px;
+}
+.back-to-top-sidebar{
+  position: fixed;
+  bottom:65px;
+  left: 13px;
+}
+#display_dicv_good_cast_btn{
+  position:absolute;
+  bottom:65px;
+}
+.last-row{
+  margin-bottom: 50px;
+}
+.header-menu{
+  color:rgb(171, 199, 223) !important;
+}
+.header-menu:hover{
+  color:rgb(183, 218, 249) !important;
+}
+.navbar-left-heading{
+  color:#5AA8E8 !important;
+  font-size: 14px !important;
+}
+.navbar-left-heading:hover{
+  color:#000 !important;
+}
+.navbar-brand-center {
+position: absolute !important;
+padding: 15px;
+text-decoration: none !important;
+cursor:pointer;
+width: 100%;
+line-height: 20px;
+left: 0;
+top: 0;
+text-align: center;
+font-weight: bold;
+margin: auto;
+font-family: "ubuntu";
+font-size: 18px;
+color: #C8E4FC !important;
+}
+/*  secondary header styling starts */
+
+.secondary-header-wrapper{
+  height: 150px;
+}
+.secondary-header-sidebar
+{
+  width:30%;
+  height:50px;
+  background-color:rgba(0,0,0,.6);
+  border-radius:10px;
+  float:left;
+  vertical-align: middle;
+  margin-top:50px;
+}
+.secondary-header-sidebar-left{
+  margin-right:-10px;
+}
+.secondary-header-sidebar-right{
+  margin-left:-10px;
+}
+.secondary-header-logo{
+  height:150px;
+  width:150px;
+  border-radius:50%;
+  float:left;
+  background-color:#000;
+  background-image:url('../barathbenz.jpg');
+  background-size: contain;
+}

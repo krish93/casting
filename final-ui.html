@@ -1,0 +1,133 @@
+<html>
+	<head>
+	  <title>Casting Tool Calculator</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/custom.css"/>
+		<script src="js/jquery-2.1.1.min.js"></script>
+		<script>
+		
+		function TableToExcel(tableid)
+		{
+			var id=$('[id$="'+tableid+'"]');
+			var strCopy=$('<div></div>').html(id.clone()).html();
+			console.log(strCopy);
+		
+			window.clipboardData.setData("Text",strCopy);
+			var objExcel= new ActiveXObject("Excel.Application");
+			objExcel.visible = false;
+			var objWorkbook=objExcel.Workbooks.Add;
+			var objWorksheet=objWorkbook.Worksheets(1);
+			objWorksheet.Paste;
+			objExcel.visible=true;
+		}
+		</script>
+	</head>
+	<body>
+	<div id="myDiv">
+		<table id="metric">
+			<tr>
+				<td>a</td>
+				<td>b</td>	
+			</tr>
+		</table>
+		<button onclick="TableToExcel('display_content')">Export</button>
+		</div>
+		<div id="display_content" class="col-md-6 col-md-offset-1 jumbotron disp">
+    <legend class="well text-center" style="font-size:20px"><b>Result</b></legend>
+    <div id="main_table">
+      <h3 id='head_raw_material_cost' class='text-center' >Raw Material Cost of</h3>
+      <table class='table table-bordered table-hover well test' id='raw_material_cost' >
+        <tr><th> </th><th>Grade</th><th> </th><th> </th></tr><tr><th>Material</th><th>Qty(kgs)</th><th>Rs/kg</th><th>Total Cost</th></tr>
+        <tr><td>CRCA</td><td></td><td></td><td></td></tr>
+        <tr><td>Pig Iron</td><td></td><td></td><td></td></tr>
+        <tr><td>Foundry R/R</td><td></td><td></td><td></td></tr>
+        <tr><td>Total</td><td></td><td></td><td></td></tr>
+        <tr><td>Coke</td><td></td><td></td><td></td></tr>
+        <tr><td>Fe-Si</td><td></td><td></td><td></td></tr>
+        <tr><td>Fe-Mn</td><td></td><td></td><td></td></tr>
+        <tr><td>Copper</td><td></td><td></td><td></td></tr>
+        <tr><td>Graphite</td><td></td><td></td><td></td></tr>
+        <tr><td>Total</td><td></td><td></td><td></td></tr>
+      </table>
+      <h3 id='head_treat' class="text-center">Treatment Cost Details</h3>
+      <table class='table table-bordered table-hover well test' id='display_equipment_detail' >
+      <tr><th>Treatment Cost Details</th><th>For()kgs</th><th> </th><th> </th></tr>
+      <tr><td>fe-si-mg</td><td></td><td></td><td></td></tr>
+      <tr><td>cov_steel</td><td></td><td></td><td></td></tr>
+      <tr><td>preconditioning_inoculant</td><td></td><td></td><td></td></tr>
+      <tr><td>stream_inoculant</td><td></td><td></td><td></td></tr>
+      <tr><td>Total</td><td></td><td></td><td></td></tr>
+      <tr><td>Total Metal Weight</td><td></td><td></td><td></td></tr>
+      <tr><td>Cost of metal with Yield</td><td></td><td></td><td></td></tr>
+      <tr><td>R/R Credit Back @ 98%</td><td></td><td></td><td></td></tr>
+      <tr><td>Metallics Total Cost incl. R/R</td><td></td><td></td><td></td></tr>
+      <tr><td>Less R/R Value</td><td></td><td></td><td></td></tr>
+      <tr><td>Metallics Cost Excl. R/R</td><td></td><td></td><td></td></tr>
+      <tr><td>Total Metallics Cost</td><td></td><td></td><td></td></tr>
+      </table>
+      <h3 id='head_dis_sand_cost'  class='text-center'>Sand Box Cost()</h3>
+      <table class='table table-bordered table-hover well test' id='dis_sand_cost' >
+        <tr><th> </th><th> For () kgs</th><th> </th><th> </th></tr>
+        <tr><th>Material</th><th>Qty(kgs)</th><th>Rs/kg</th><th>Total Cost</th></tr>
+        <tr><td>New Sand</td><td></td><td></td><td></td></tr>
+        <tr><td>Bentonite</td><td></td><td></td><td></td></tr>
+        <tr><td>Lustron</td><td></td><td></td><td></td></tr>
+        <tr><td>Total</td><td></td><td></td><td></td></tr>
+        <tr><td>Yield(%)</td><td></td><td></td><td></td></tr>
+        <tr><td>Lm(kgs)</td><td></td><td></td><td></td></tr>
+        <tr><td>Good Casting</td><td></td><td></td><td></td></tr>
+        <tr><td>Sand Cost per Kg</td><td></td><td></td><td></td></tr>
+      </table>
+      <h3 id='head_dis_cold_cost' class='text-center' >Cold Box Core Cost</h3>
+      <table class='table table-bordered table-hover well test' id='dis_cold_cost' >
+        <tr><th> </th><th> For () kgs Sand Mix</th><th> </th><th> </th></tr>
+        <tr><th>Material</th><th>Qty(kgs)</th><th>Rs/kg</th><th>Total Cost</th></tr>
+        <tr><td>Washed Sand</td><td></td><td></td><td></td></tr>
+        <tr><td>Resin</td><td></td><td></td><td></td></tr>
+        <tr><td>Hardener</td><td></td><td></td><td></td></tr>
+        <tr><td>Amine</td><td></td><td></td><td></td></tr>
+        <tr><td>Total</td><td></td><td></td><td></td></tr>
+      </table>
+      </div>
+      <div class="jumbotron good_cast" id="display_good_cast">
+        <h3 id='head_good_casting' class='text-center ' style="width:500px">Cost /Kg of good Casting</h3>
+          <table class='table table-bordered table-hover well test' id='cost_good_casting' style="width:500px">
+            <tr><th>Material</th><th>Value</th></tr>
+            <tr><td>Metallic Cost</td><td> </td></tr>
+            <tr><td>Mould R/m Cost</td><td> </td></tr>
+            <tr><td>Core Cost</td><td> </td></tr>
+            <tr><td>Machine Cost</td><td> </td></tr>
+            <tr><td>Labour </td><td> </td></t>
+            <tr><td>Power Cost</td><td> </td></tr>
+            <tr><td>Purchased parts Cost</td><td> </td></tr>
+            <tr><td>Sub Total Cost</td><td> </td></tr>
+            <tr><td>ICC on RM @2%</td><td> </td></tr>
+            <tr><td>Plant OverHead @ 5%</td><td> </td></tr>
+            <tr><td>SGA @5%</td><td> </td></tr>
+            <tr><td>Profit on RM @1%</td><td> </td></tr>
+            <tr><td>Profit on Manufacturing Cost @10%</td><td> </td></tr>
+            <tr><td>Rejection</td><td> </td></tr> 
+            <tr><td>Total</td><td> </td></tr>
+          </table>
+      </div>
+      <div class="jumbotron dicv_good_cast" id="display_dicv_good_cast">
+        <h3 id='head_dicv' class='text-center '>DICV Cost /Kg of good Casting</h3>
+          <table class='table table-bordered table-hover well test' id='dicv_cost_good_casting'>
+            <tr><th>Materials</th><th>Values</th></tr>
+            <tr><td>Raw Material Cost</td><td> </td></tr>
+            <tr><td>Purchased parts Cost</td><td> </td></tr>
+            <tr><td>Machine Cost</td><td> </td></tr>
+            <tr><td>Labour Cost</td><td> </td></tr>
+            <tr><td>Power Cost</td><td> </td></tr>
+            <tr><td>Misc Plant OverHead</td><td> </td></tr>
+            <tr><td>SGA</td><td> </td></tr>
+            <tr><td>RM Markup</td><td> </td></tr>
+            <tr><td>Purchased Parts Mark Up</td><td> </td></tr>
+            <tr><td>Profit on Rm</td><td> </td></tr>
+            <tr><td>Profit on Manufacturing Cost</td><td> </td></tr>
+            <tr><td>Total Cost</td><td> </td></tr>
+          </table>  
+      </div>
+    </div>  
+	</body>
+</html>
