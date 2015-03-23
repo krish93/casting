@@ -1,0 +1,80 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript">
+		//Calcualte the Number of Cavity
+function calcualteCavity(casting_length,casting_breadth,length,breadth)
+{
+    var temp_casting_length=casting_length+30;
+    var temp_casting_breadth=casting_breadth+30;
+    row_count=0,column_count=0;
+    temp_casting_length=parseInt(temp_casting_length);
+    temp_casting_breadth=parseInt(temp_casting_breadth);
+    if(length>temp_casting_length&&breadth>temp_casting_breadth)
+    {
+    	console.log("Both higher");
+      while((length - 30) > temp_casting_length)
+      {
+      	console.log("column_count");
+          column_count++;
+          temp_casting_length+=casting_length+30;
+      }
+      while((breadth - 30) > temp_casting_breadth)
+      {
+      	console.log("row count for both higher "+breadth);
+          row_count++;
+          console.log(temp_casting_breadth);
+
+          temp_casting_breadth += casting_breadth + 30;
+      }
+    }
+    else if(length<temp_casting_length&&breadth>temp_casting_breadth)
+    {
+      length=parseInt(length)-30;
+      breadth=parseInt(breadth)-30;
+      length=Math.sqrt(parseFloat(length*length)+parseFloat(breadth*breadth));
+      while((length - 30) > temp_casting_length)
+      {
+          column_count++;
+          temp_casting_length+=casting_length+30;
+      }
+      /*while((breadth - 30) > temp_casting_breadth)
+      {
+          row_count++;
+          temp_casting_breadth += casting_breadth + 30;
+      }*/
+    }
+    else if(breadth<temp_casting_breadth&&length>temp_casting_length)
+    {
+      length=parseInt(length)-30;
+      breadth=parseInt(breadth)-30;
+      length=Math.sqrt(parseFloat(length*length)+parseFloat(breadth*breadth));
+      while((breadth - 30) > temp_casting_breadth)
+      {
+          row_count++;
+          temp_casting_breadth += casting_breadth + 30;
+      }
+    }
+    if(row_count == 1 && column_count ==1)
+    {
+      return row_count;
+    }
+    if(row_count==0)
+    {
+      return column_count;
+    }
+    if(column_count==0)
+    {
+      return row_count;
+    }
+    //drawDiagram(casting_length,casting_breadth,avl_length,avl_breadth,dimension[0],dimension[1],row_count,column_count,);
+    return column_count*row_count;
+}
+	alert(calcualteCavity(100,100,200,200));
+		</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,6 +1,24 @@
 $(function () {
 var casting_breadth,casting_length,casting_height,cavity,box_dimension,bentonite,new_sand,lustron,return_sand,type,sand_requirement;
 var avl_length,avl_breath,row_count=0,column_count=0,box_size_requirement;
+// To convert crca to caps
+function convertToUppercase(type_of_cast)
+{
+  var return_data;
+  if(type_of_cast.toLowerCase() == "sg_iron")
+  {
+    return_data = "SG Iron";
+  }
+  else if(type_of_cast.toLowerCase() == "crca,foundry")
+  {
+    return_data = "CRCA, Foundry R/R";
+  }
+  else{
+    return_data = type_of_cast;
+  }
+  return return_data;
+}
+
 //Get the Box Size
 function getBoxSize(length,breadth,cope_height,drag_height)
 {
@@ -12,7 +30,7 @@ function getBoxSize(length,breadth,cope_height,drag_height)
  // box_dimension=$("#length_size").val()+"X"+$("#breadth_size").val()+"X"+$("#cope_height_size").val()+"X"+$("#drag_height_size").val();
    box_dimension = length+"X"+breadth+"X"+cope_height+"X"+drag_height;
   var dimension=box_dimension.split('X').map(Number);
-  avl_length=$("#length_size").find(':selected').attr("data-avl-length").trim();
+  avl_length=$("#length_size").find(':selected').attr("data-avl-length");
   avl_breadth=$("#breadth_size").find(':selected').attr("data-avl-breadth");
   casting_length=parseInt(casting_length);
   casting_breadth=parseInt(casting_breadth);
@@ -21,6 +39,11 @@ function getBoxSize(length,breadth,cope_height,drag_height)
 
 
   cavity = calcualteCavity(parseInt(casting_length),parseInt(casting_breadth),parseInt(avl_length),parseInt(avl_breadth));
+  console.log("avl_length "+avl_length);
+  console.log("avl_breadth "+avl_breadth);
+  console.log("casting_length "+casting_length);
+  console.log("casting_breadth "+casting_breadth);
+  console.log("cavity "+cavity);
   drawDiagram(casting_length,casting_breadth,avl_length,avl_breadth,dimension[0],dimension[1],row_count,column_count,cavity);
   sand_requirement=sandRequirement(casting_length,casting_breadth,casting_height,dimension);
   sand_requirement=parseInt(sand_requirement);
@@ -89,12 +112,20 @@ function calcualteCavity(casting_length,casting_breadth,length,breadth)
           temp_casting_breadth += casting_breadth + 30;
       }
     }
-    if(row_count === 1 && column_count ==1)
+    if(row_count == 1 && column_count ==1)
     {
       return row_count;
     }
-    //drawDiagram(casting_length,casting_breadth,avl_length,avl_breadth,dimension[0],dimension[1],row_count,column_count,);
-    return column_count+row_count;
+    //drawDiagram(casting_length,casting_breadth,avl_length,avl_breadth,dimension[0],dimension[1],row_count,column_count,(column_count*row_count));
+    if(row_count == 0)
+    {
+      return column_count;
+    }
+    if(column_count == 0)
+    {
+      return row_count;
+    }
+    return column_count*row_count;
 }
 
 //Draw the drawDiagram
@@ -209,7 +240,8 @@ function getInputTable()
   core_weight=$("#core_weight").val();
   space_cost=$("#space_cost").val();
   interest=$("#interest").val();
-  purchase_expense=findMonthlyCapacity(file_lines,"purchase_expense")
+  purchase_expense=findMonthlyCapacity(file_lines,"purchase_expense");
+  //console.log(purchase_expense);
   if($("#sand_mixer").val().toLowerCase()==="others")
   {
     sand_mixer_capacity=$("#new_sand_mixer").val();
@@ -244,11 +276,12 @@ function getInputTable()
   {
     type_of_material+=","+$("#foundry").val();
   }
+  $('#head1').remove();
   $("#display_content #main_table").append("<h3 id='head1' style='text-align:center;'>Casting Details</h3><table class='table table-bordered table-hover well test' id='casting_details' '></table>");
   var table_name="#casting_details";
   printGoodCastingTable(table_name,"Part No",part_no);
   printGoodCastingTable(table_name,"Part Name",part_name);
-  printGoodCastingTable(table_name,"Type of cast",type_of_cast);
+  printGoodCastingTable(table_name,"Type of cast",convertToUppercase(type_of_cast));
   printGoodCastingTable(table_name,"Grade",grade);
   printGoodCastingTable(table_name,"Finished Weight (kgs)",finished_weight);
   printGoodCastingTable(table_name,"Machine Allowance",machin_allowance);
@@ -257,7 +290,7 @@ function getInputTable()
   printGoodCastingTable(table_name,"Yield (%)",yield);
   printGoodCastingTable(table_name,"Rejection (%)",rejection);
   printGoodCastingTable(table_name,"Casting Dimension(LxBxH) in mm",casting_dimension);
-
+  $('#head2').remove();
   $("#display_content #main_table").append("<h3 id='head2' style='text-align:center;'>Equipment Details</h3><table class='table table-bordered table-hover well test' id='equipment_details'> </table>");
   var table_name="#equipment_details";
   printGoodCastingTable(table_name,"Furnace Capacity (kgs)",furnace_capacity);
@@ -267,11 +300,11 @@ function getInputTable()
   printGoodCastingTable(table_name,"Space Cost (INR per.Sq.m)",space_cost);
   printGoodCastingTable(table_name,"Year ",year);
   printGoodCastingTable(table_name,"Box Dimensions (LxBxCHxDH) in mm",box_dimension);
-
+  $('#head3').remove();
   $("#display_content #main_table").append("<h3 id='head3' style='text-align:center;'>Material Details</h3><table class='table table-bordered table-hover well test' id='material_details' ></table>");
   var table_name="#material_details";
-  printGoodCastingTable(table_name,"Type of Material",type_of_material);
-  printGoodCastingTable(table_name,"Purchase Parts Expense",purchase_expense);
+  printGoodCastingTable(table_name,"Type of Material",convertToUppercase(type_of_material));
+  printGoodCastingTable(table_name,"Purchased Parts Expenses",findMonthlyCapacity(file_lines,"purchase_expense"));
   printGoodCastingTable(table_name,"Power State",power_state);
   printGoodCastingTable(table_name,"EB(%)",eb);
   printGoodCastingTable(table_name,"Private(%)",private_power);
@@ -322,6 +355,12 @@ function validate()
   {
     $("#error-message").show();
       $("#error-message").html("<div class='alert alert-dismissable alert-danger'><button class='close' type='button' data-dismiss='alert'>&times;</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span> Choose the Box Length</span></div>")
+      return false;
+  }
+  if($("#grade").val() === null)
+  {
+    $("#error-message").show();
+      $("#error-message").html("<div class='alert alert-dismissable alert-danger'><button class='close' type='button' data-dismiss='alert'>&times;</button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span> Choose grade</span></div>")
       return false;
   }
   if($("#breadth_size").val() === null)
@@ -462,6 +501,10 @@ function separatePowerDetails()
 }
 $("#calculate").click(function(){
   var fields = {};
+              crca_qty=0;
+            boring_qty=0;
+            foundry_qty=0;
+            pig_iron_qty=0;
 $("#form").find(":input").each(function() {
     // The selector will match buttons; if you want to filter
     // them out, check `this.tagName` and `this.type`; see
@@ -529,12 +572,14 @@ var obj = {fields: fields};
         $("#cost_good_casting tr:nth-child(17) td").css("background","bisque");
         $("#dicv_cost_good_casting tr:last td").css("color","teal");
         $("#dicv_cost_good_casting tr:last td").css("font-weight","900");
+      alert("Successfully executed! and the Casting cost/kg is Rs."+casting_cost_per_kg_good_cast_display+" per kg.");
        }
     else
     {
       var body = $("html, body");
       body.animate({scrollTop:0}, '3000', 'swing', function() { });
     }
+
 });
 $("#new_get_cast").click(function(){
    if(validate())

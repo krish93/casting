@@ -29,7 +29,8 @@
 td,th
 {
   text-align: center;
-  font-family: "material";
+  font-family: Tahoma, Geneva, sans-serif;
+  font-weight: normal;
 }
 td
 {
@@ -52,7 +53,7 @@ tbody tr:first-child{
   border-right-border:2px;
 }
 h1,h2,h3,h4,h5{
-  font-family: "material";
+  font-family: Tahoma, Geneva, sans-serif;;
 }
 .box
 {
@@ -122,8 +123,8 @@ h1,h2,h3,h4,h5{
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
 body{
-  background-color:  #728290;
-  font-family: "material";
+  background-color:  #9EB3C5;
+  font-family: Tahoma, Geneva, sans-serif;
 }
 body .well,
 .container .well,
@@ -172,7 +173,6 @@ input[type="text"],input[type="hidden"],select,option
   background:lightgoldenrodyellow
 }
 #footer {
-   position:fixed;
    left:0px;
    bottom:0px;
    height:45px;
@@ -180,7 +180,16 @@ input[type="text"],input[type="hidden"],select,option
    background:#999;
 }
 #footer p{
-  line-height: 45px;
+  padding-top:15px;
+  color:rgb(171, 199, 223);
+}
+.footer-right{
+  position:absolute;
+  top:0;
+  right: 20px;
+}
+.footer-wrapper{
+  position: relative;
 }
 
 /* IE 6 */
@@ -211,13 +220,13 @@ input[type="text"],input[type="hidden"],select,option
   margin-bottom: 50px;
 }
 .header-menu{
-  color:rgb(171, 199, 223) !important;
+  color:white !important;
 }
 .header-menu:hover{
   color:rgb(183, 218, 249) !important;
 }
 .navbar-left-heading{
-  color:#5AA8E8 !important;
+  color:white !important;
   font-size: 14px !important;
 }
 .navbar-left-heading:hover{
@@ -236,8 +245,22 @@ text-align: center;
 font-weight: bold;
 margin: auto;
 font-family: "ubuntu";
-font-size: 18px;
-color: #C8E4FC !important;
+font-size: 20px;
+color: white !important;
+}
+input::-webkit-input-placeholder
+{
+  text-align:center;
+  color: red;
+}
+:-ms-input-placeholder {  
+  text-align:center; 
+}
+h3{
+  font-size:18px !important;
+}
+.table-bordered>tbody>tr>th{
+  border: 1px solid #215079;
 }
 /*  secondary header styling starts */
 

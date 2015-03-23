@@ -2,7 +2,7 @@ var crca_value,pig_iron_value,foundry_value,grade,type,copper_percentage,carbon_
 var crca_carbon_percentage,crca_silicon_percentage,crca_manganese_perentage,crca_copper_percentage,mo_percentage=0,cr_percentage,crca_mo_percentage,crca_cr_percentage;
 var pig_iron_carbon_percentage=0,pig_iron_silicon_percentage=0,pig_iron_manganese_percentage=0,pig_iron_copper_percentage=0,pig_iron_mo_percentage=0,pig_iron_cr_percentage=0;
 var foundry_carbon_percentage,foundry_silicon_percentage,foundry_manganese_percentage,foundry_copper_percentage,foundry_mo_percentage,foundry_cr_percentage;
-var calculated_copper_percentage,calculated_carbon_percentage,calculated_silicon_percentage,calculated_manganese_percentage,total_cost_core_sand;
+var calculated_copper_percentage,calculated_carbon_percentage,calculated_silicon_percentage,calculated_manganese_percentage,total_cost_core_sand=0;
 var recovery = [], cost = [],material = [], quantity = [];
 var graphite_qty,copper_qty,coke_qty,fe_si_qty,fe_mn_qty,fe_mo_qty=0,fe_cr_qty=0,tin_qty=0;
 var cavity = [],casting_length = [],casting_breadth = [],casting_height = [],box_length = [],box_breadth = [],box_cope_height = [],box_drag_height = [],sand_cost = [],sand_material = [],no_of_box = [],sand_requirement = [],new_sand = [], bentonite = [],lustron = [],pouring_weight = [];
@@ -229,11 +229,17 @@ function getRawMaterialCost()
   value=$("input:radio[name=iron]:checked").val();
   if(value=== "sg_iron")
   {
-  crca_qty=total_qty*(50/100);
+  crca_qty=total_qty*($('#yield').val()/100);
   }
   else 
   {
-    crca_qty = total_qty*(35/100);
+    if($('#calculateFromYield').prop("checked"))
+    {
+      crca_qty = total_qty * ($('#yield').val()/100);
+    }
+    else{
+      crca_qty = total_qty*(45/100);
+    }
     cr_percentage = parseFloat($('div [data-type="'+type+'"],[data-grade="'+grade+'"]').data("cr"));
   }
   crca_qty = parseFloat(crca_qty);
@@ -244,13 +250,21 @@ function getRawMaterialCost()
     if(value === "sg_iron")
     {
     pig_iron_qty =total_qty * (10/100);
-    foundry_qty =total_qty * (30/100);
+    foundry_qty =total_qty - (crca_qty + pig_iron_qty);
     }
     else
     {
-     pig_iron_qty =total_qty * (10/100);
-    foundry_qty =total_qty * (45/100);
-    boring_qty=total_qty *(10/100) ;
+      if($('#calculateFromYield').prop("checked"))
+      {
+        pig_iron_qty =total_qty * (15/100);
+        foundry_qty =total_qty - (crca_qty + pig_iron_qty);
+        boring_qty = 0;
+      }
+      else{
+        pig_iron_qty =total_qty * (15/100);
+        foundry_qty =total_qty * (30/100);
+        boring_qty=total_qty *(10/100) ;
+      }
     }
 
     pig_iron_rate = $("div [data-type='pig_iron']").data("cost") ;
@@ -261,11 +275,25 @@ function getRawMaterialCost()
   }
   else
   {
+       // console.log("Pig iron not selected");
+
     pig_iron_qty = 0;
     pig_iron_rate = 0;
     foundry_rate = $("div [data-type='foundry']").data("cost");
-    foundry_qty = total_qty * (50/100);
+    foundry_qty = total_qty - crca_qty;
+    if($('#boring').prop("checked"))
+    {
+     // console.log(" inside pig iron not selected boring checked");
+      boring_qty = total_qty * (10/100);
+      foundry_qty = total_qty - (crca_qty + boring_qty);
+     // console.log("boring = "+boring_qty);
+    }
+    else{
+     // console.log("inside pig iron not selected boring not checked");
+      boring_qty = 0;
+    }
     getPercentageFoundry();
+   // console.log("end of pig iron not selected");
   }
   pig_iron_qty = parseFloat(pig_iron_qty);
   foundry_qty = parseFloat(foundry_qty);
@@ -309,29 +337,32 @@ function getRawMaterialCost()
   var pig_iron_cost = parseFloat(pig_iron_qty) * parseFloat(pig_iron_rate);
   var foundry_cost = parseFloat(foundry_qty) * parseFloat(foundry_rate);
   var boring_cost=0;
+  var temp_quantity = 0;
   if(value.trim() === "gray_iron")
   {
  boring_cost = parseFloat(boring_qty)  * parseFloat(boring_rate);
   }
   var temp_cost,sum = parseFloat(crca_cost) + parseFloat(pig_iron_cost) + parseFloat(foundry_cost) + parseFloat(boring_cost);
+  var temp_quantity = crca_qty + pig_iron_qty + foundry_qty + boring_qty;
   printRawMaterialTable(table_name,"CRCA",crca_qty.toFixed(2),crca_rate,crca_cost.toFixed(2));
-  printRawMaterialTable(table_name,"pig_iron",pig_iron_qty.toFixed(2),pig_iron_rate,pig_iron_cost.toFixed(2));
+  printRawMaterialTable(table_name,"Pig Iron",pig_iron_qty.toFixed(2),pig_iron_rate,pig_iron_cost.toFixed(2));
   printRawMaterialTable(table_name,"Foundry R/R",foundry_qty.toFixed(2),foundry_rate,foundry_cost.toFixed(2));
   if(value.trim() === "gray_iron")
   {
     printRawMaterialTable(table_name,"Bourings",boring_qty.toFixed(2),boring_rate,boring_cost.toFixed(2));
   }
   //printRawMaterialTable(table_name,"Total",total_qty.toFixed(2),"-",sum.toFixed(2));
- 
+  
   $.each(material,function(key,value){
   total_metal_qty+=parseFloat(quantity[key]);
   temp_cost = parseFloat(quantity[key]) * parseFloat(cost[key]);
-//  console.log(temp_cost);
+  console.log("quantity = "+temp_cost);
   sum += parseFloat(temp_cost);
+  temp_quantity +=parseFloat(quantity[key]);
   //console.log(sum);
   printRawMaterialTable(table_name,value,quantity[key].toFixed(2),cost[key],temp_cost.toFixed(2)); 
   });
-  printRawMaterialTable(table_name,"Total","-","-",sum.toFixed(2));
+  printRawMaterialTable(table_name,"Total",temp_quantity.toFixed(2),"-",sum.toFixed(2));
   melting_loss = (5/100)*total_metal_qty;
   net_metal_weight = parseFloat(total_metal_qty) - parseFloat(melting_loss);
   metallic_cost_furnace = parseFloat(sum) / parseFloat(net_metal_weight);
@@ -414,14 +445,20 @@ function getSandCost()
   sand_yield=$("#yield").val()/100;
   $.each(cavity,function(key,value){
   pouring_weight.push(parseFloat(weight)+(cavity*parseFloat(cast_value)));
+  console.log("mixer_qty ="+mixer_qty);
+  console.log("box_size_requirement ="+box_size_requirement);
+  console.log("cavity ="+cavity);
   var temp_lm = (mixer_qty/parseFloat(box_size_requirement))*parseFloat(cavity)*parseFloat(cast_value)/parseFloat(sand_yield);
   lm.push(parseFloat(temp_lm));
   var temp_good_casting = parseFloat(lm)*parseFloat(sand_yield);
+  console.log("lm "+parseFloat(lm));
   good_casting.push(temp_good_casting);
   $.each(total_cost,function(key,value){
     temp_cost += parseFloat(value);
   });
   var cost = parseFloat(temp_cost)/parseFloat(temp_good_casting);
+  console.log("temp_cost "+temp_cost);
+  console.log("temp_good_casting "+temp_good_casting);
   sand_cost_per_kg.push(cost);
   });
   var box_dimension=$("#length_size").val()+"X"+$("#breadth_size").val()+"X"+$("#cope_height_size").val()+"X"+$("#drag_height_size").val();
@@ -459,7 +496,7 @@ function getTreatmentCost()
   total_metallic_excl_rr = less_rr_value / cost_metal_yield;
   cost_yield = total_treatment_cost / cost_metal_yield;
   total_metallic_cost = cost_yield +total_metallic_excl_rr;
-  $("#display_content #main_table").append("<h3 id='head_treat' class='text-center'>B - Treatment Cost For ("+$("#quantity").val()+"kgs)</h3>");
+  $("#display_content #main_table").append("<h3 id='head_treat' class='text-center'>B - Treatment RM Cost For ("+$("#quantity").val()+"kgs)</h3>");
   //$("#display_content").append("<table class='table table-bordered table-hover well test' id='display_equipment_detail'>");
   $("#display_content #main_table").append("<table class='table table-bordered table-hover well test' id='display_equipment_detail' >");
   $("#display_equipment_detail").append("<tr><th>Treatment Cost Details</th><th>kgs</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table>");
@@ -474,8 +511,9 @@ function getTreatmentCost()
   $("#display_content #main_table").append("<h3 id='head_metal' class='text-center'>Metallics Cost</h3>");
   //$("#display_content").append("<table class='table table-bordered table-hover well test' id='display_equipment_detail'>");
   $("#display_content #main_table").append("<table class='table table-bordered table-hover well test' id='display_metallic_detail' ></table>");
+  $("#display_metallic_detail").append("<tr><th>Material</th><th>kgs</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table>");
   var table_name="#display_metallic_detail";
-  
+
   printRawMaterialTable(table_name,"R/R Credit Back @ 98% (kgs)",rr_credit_qty.toFixed(2),rr_credit_rate,rr_credit_total.toFixed(2));
   printRawMaterialTable(table_name,"Metallics (A) Cost incl. R/R","-","-",total_metallic_incl_rr);
   printRawMaterialTable(table_name,"Less R/R Value (INR)","-","-",less_rr_value.toFixed(2));
@@ -515,6 +553,11 @@ function getTreatmentValues()
   {
   var core_rejection,total_core_sand;
   var core_weight = $("#core_mix").val();
+  if(parseFloat(core_weight) == 0)
+  {
+
+  }
+  else{
   core_weight = parseInt(core_weight);
   washed_sand_qty = (100/100)*core_weight;
   resin_qty = (0.85/100)*core_weight;
@@ -559,4 +602,6 @@ function getTreatmentValues()
   printRawMaterialTable(table_name,"Hardener",hardener_qty.toFixed(2),cold_cost[2],hardener_cost.toFixed(2));
   printRawMaterialTable(table_name,"Amine",amine_qty.toFixed(2),cold_cost[3],amine_cost.toFixed(2));
   printRawMaterialTable(table_name,"Total","-","-",total_cost.toFixed(2));
+  printGoodCastingTable(table_name,"Core cost per kg of good cast",((parseFloat($("#core_weight").val())*total_cost_core_sand)/$("#cast_value").val()).toFixed(2));
+}
 }

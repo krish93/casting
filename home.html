@@ -46,6 +46,24 @@
         $("#reload_button").click(function(){
           location.reload(true);
         });
+        $('#preview_button').click(function(){
+          $('#previewModal').modal('toggle');
+        });
+        $('#get_weight').focus(function(){
+          console.log("here");
+          if($('#iron_new').prop('checked') == false && $('#iron_new1').prop('checked') == false)
+          {
+            //alert("Please choose the grade of iron first.");
+            console.log("entered");
+            $('#error-message').show();
+            $("#error-message").html("<div class='alert alert-dismissable alert-danger'><button class='close' type='button' data-dismiss='alert'>&times;</button></span><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span> Choose the grade of iron.</span></div>");
+            $('#back-to-top').click();
+          }
+          else{
+            $('#error-message').hide();
+          }
+        });
+        $("#display_dicv_good_cast").fadeOut();
         $.material.init();
 
         $('#display_dicv_good_cast_btn').click(function(){
@@ -56,6 +74,42 @@
           console.log(height);
           body.animate({scrollTop:height}, '3000', 'swing', function() { });
         })
+        $('#iron_new1').click(function(){
+          if($('#iron_new1').prop('checked'))
+          {
+            $('#mixture-modal').modal('show');
+            //$('#calculateFromDefault').click();
+          }
+        });
+        $('#calculateFromDefault').click(function(){
+          if($(this).prop('checked'))
+          {
+            $('#boring').parent().fadeIn();
+            if($('#boring').prop("checked")==false)
+            {
+              $('#boring').removeAttr('disabled');
+              $('#boring').click();
+            }
+            $('#boring').attr('disabled',true);
+            crca_qty=0;
+            boring_qty=0;
+            foundry_qty=0;
+            pig_iron_qty=0;
+          }
+        });
+        $('#calculateFromYield').click(function(){
+          if($(this).prop('checked'))
+          {
+            //$('#boring').parent().fadeOut();
+            $('#boring').attr('disabled',true);
+            $('#boring').removeAttr('checked');
+            crca_qty=0;
+            boring_qty=0;
+            foundry_qty=0;
+            pig_iron_qty=0;
+          }
+        });
+
         for(var i=2010;i<=2020;i++)
         {
           $("#year").append("<option>"+i+"</option>")
@@ -93,20 +147,50 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
           }
         });
-        $("#casting_length").keyup(function (evt) {
-             var ret=verify(evt);
-              if(!ret)
+        $("#core_weight").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
           {
             $(this).css("border-color","red");
             $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+            var value = $(this).val().trim();
+            if(value.length > 0)
+            {
+              value = parseFloat(value);
+              if(value == 0)
+              {
+                $('#core_mix').attr("disabled","true");
+                $('#dis_cold_cost').fadeOut();
+                $('#head_dis_cold_cost').fadeOut();
+                $('#core_mix').val("0");
+              }
+              else{
+                $('#dis_cold_cost').fadeIn();
+                $('#head_dis_cold_cost').fadeIn();
+                $('#core_mix').removeAttr("disabled");
+              }
+            }
+            $(this).css("border-color","green"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+          }
+        });
+        $("#casting_length").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -119,7 +203,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -132,7 +216,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -145,7 +229,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -158,7 +242,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -171,7 +255,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -184,7 +268,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -197,7 +281,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -210,7 +294,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -223,7 +307,20 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
+           $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
+         }
+        });
+        $("#machining_cost").keyup(function (evt) {
+          var ret=verify(evt);
+          if(!ret)
+          {
+            $(this).css("border-color","red");
+            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(233, 102, 102, 0.6)");
+          }
+          else
+          {
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -236,7 +333,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -249,7 +346,7 @@
           }
           else
           {
-           $(this).css("border-color","#66afe9"); 
+           $(this).css("border-color","green"); 
            $(this).css("box-shadow","inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6)");
          }
         });
@@ -259,7 +356,7 @@
           if ((charCode>=65 && charCode <=90 ) || charCode==32)
           {
             $("#error-message").show();
-            $("#error-message").html("<div class='alert alert-dismissable alert-danger'><button class='close' type='button' data-dismiss='alert'>&times;</button></span><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span> Enter Only Numbers</span></div>")
+            $("#error-message").html("<div class='alert alert-dismissable alert-danger'><button class='close' type='button' data-dismiss='alert'>&times;</button></span><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span> Enter Only Numbers</span></div>");
             return false;
           }
           $("#error-message").hide();
@@ -286,13 +383,6 @@
         });
         $("#download_button").mouseleave(function(){
           $("#download_button").css("background","rgba(0,0,0,0)");
-        });
-        $("#preview_button").mouseenter(function(){
-          $(this).css("cursor","pointer");
-          $(this).css("background","rgba(0,0,0,0.4)");
-        });
-        $("#preview_button").mouseleave(function(){
-          $(this).css("background","rgba(0,0,0,0)");
         });
         $('[data-toggle="tooltip"]').tooltip();
         //$("#download_button").attr("disabled","disabled").off("click");
@@ -374,7 +464,7 @@ console.log("in");
 	  <div class="navbar-header">
       <a class="navbar-brand navbar-left-heading">COST ENGINEERING-DICV</a>
       <a class="navbar-brand-center">
-        CASTING TOOL CALCULATOR
+        CASTING COST CALCULATOR
       </a>
       <!--
       <a class="navbar-brand" href="index.html" style="background:white">
@@ -402,9 +492,6 @@ console.log("in");
   -->
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a href="#" id="preview_button" class="header-menu" data-toggle='tooltip' data-placement='bottom' title='Preview' data-original-title='Preview'>
-            <span class="glyphicon glyphicon-picture"></span> Preview
-          </a>
         </li>
         <li>
           <a href="#" id="excel_button" class="header-menu" data-toggle='tooltip' data-placement='bottom' title='Download as Excel' data-original-title='Download as Excel' onclick="TableToExcel('display_content')">
@@ -598,20 +685,28 @@ console.log("in");
                 <!--Dimensions-->
                 <div class="form-group">
                   <label class="col-sm-4 control-label">Casting Dimensions(mm) (LxBxH)</label>
-                    <div class="col-md-3">
-                      <input type="text" pattern="[0-9]*" id="casting_length" name="casting_length" placeholder="      L" class="form-control" required>
+                  <div class="col-sm-6">
+                    <div class="col-md-4" style="padding:0px;">
+                      <input type="text" pattern="[0-9]*" id="casting_length" name="casting_length" placeholder="L" class="form-control" required>
                     </div>
-                    <div class="col-md-3 wid">
-                      <input type="text" pattern="[0-9]*" id="casting_breadth" name="casting_breadth" placeholder="      B" class="form-control" required>
+                    <div class="col-md-4" style="padding:0px;">
+                      <input type="text" pattern="[0-9]*" id="casting_breadth" name="casting_breadth" placeholder="B" class="form-control" required>
                     </div>
-                    <div class="col-md-3 wid">
-                      <input type="text" pattern="[0-9]*" id="casting_height" name="casting_height" placeholder="      H" class="form-control" required>
+                    <div class="col-md-4" style="padding:0px;">
+                      <input type="text" pattern="[0-9]*" id="casting_height" name="casting_height" placeholder="H" class="form-control" required>
+                  </div>
                   </div>
                 </div>
                  <div class="form-group">
-                  <label class="col-sm-4 control-label">Surface Area</label>
+                  <label class="col-sm-4 control-label">Surface Area(m<sup>2</sup>)</label>
                   <div class="col-md-6">
                     <input type="text" id="surface_area" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Machining Cost/Part(INR)</label>
+                  <div class="col-sm-6">
+                    <input class="form-control" id="machining_cost" type="text" />
                   </div>
                 </div>
               </fieldset>
@@ -630,20 +725,20 @@ console.log("in");
               <fieldset>
                 <!--Furnace Capacity-->
                 <div class="form-group">
-                  <label class="col-sm-4 control-label">Furnace Capacity</label>
+                  <label class="col-sm-4 control-label">Furnace Capacity(kgs)</label>
                   <div class="col-sm-6">
                     <input type="text" pattern="[0-9]*.[0-9]*" name="quantity" id="quantity" class="form-control" required />
                   </div>
                 </div>
                 <!--Sand Mixer Capacity-->
                 <div class="form-group">
-                  <label class="col-sm-4 control-label">Sand Mixer Capacity</label>
+                  <label class="col-sm-4 control-label">Sand Mixer Capacity(kgs)</label>
                   <div class="col-sm-6">
                     <select class="form-control" id="sand_mixer" name="sand_mixer">
                       <option disabled selected>SandMixer</option>
-                      <option>3000kgs</option>
-                      <option>1000kgs</option>
-                      <option>500kgs</option>
+                      <option>3000</option>
+                      <option>1000</option>
+                      <option>500</option>
                       <option>Others</option>
                     </select>
                     <br>
@@ -652,7 +747,7 @@ console.log("in");
                 </div>
                 <!--Core Mixer -->
                 <div class="form-group">
-                  <label class="col-sm-4 control-label">Core Sand Mixer Capacity</label>
+                  <label class="col-sm-4 control-label">Core Sand Mixer Capacity(kgs)</label>
                   <div class="col-sm-6">
                     <input type="text" pattern="[0-9]*" id="core_mix" name="core_mix" class="form-control" required>
                   </div>
@@ -730,7 +825,7 @@ console.log("in");
                     <input type="checkbox" name="foundry" value="foundry" id="foundry" required>&nbsp;Foundry R/R
                     </div>
                     <div id="gray_bore" style="display:none">
-                    <input type="checkbox" name="boring" value="boring" id="boring" required>&nbsp;Boring
+                    <input type="checkbox" name="boring" value="boring" id="boring" required disabled>&nbsp;Boring
                     </div>
                   </div>
                 </div>
@@ -813,7 +908,13 @@ console.log("in");
         <ul class="nav nav-pills nav-stacked">
           <li class="active">
             <a href="#">
-              <center>Summary</center>
+              <center>Summary
+                <span class="pull-right">
+                  <button href="#" id="preview_button" style="margin-top:-5px;" class="btn btn-warning" data-toggle='tooltip' data-placement='bottom' title='Preview' data-original-title='Preview'>
+                  <span class="glyphicon glyphicon-picture"></span> Preview
+                  </button>
+                </span>
+              </center>
             </a>
           </li>
         </ul>
@@ -826,7 +927,6 @@ console.log("in");
         <tr><td>CRCA</td><td></td><td></td><td></td></tr>
         <tr><td>Pig Iron</td><td></td><td></td><td></td></tr>
         <tr><td>Foundry R/R</td><td></td><td></td><td></td></tr>
-        <tr><td>Total</td><td></td><td></td><td></td></tr>
         <tr><td>Coke</td><td></td><td></td><td></td></tr>
         <tr><td>Fe-Si</td><td></td><td></td><td></td></tr>
         <tr><td>Fe-Mn</td><td></td><td></td><td></td></tr>
@@ -834,13 +934,13 @@ console.log("in");
         <tr><td>Graphite</td><td></td><td></td><td></td></tr>
         <tr><td>Total</td><td></td><td></td><td></td></tr>
       </table>
-      <h3 id='head_treat' class="text-center">B - Treatment Cost </h3>
+      <h3 id='head_treat' class="text-center">B - Treatment RM Cost </h3>
       <table class='table table-bordered table-hover well test' id='display_equipment_detail' >
       <tr><th>Treatment Cost Details</th><th>kgs</th><th>Rs/Kg </th><th>Total Cost(INR)</th></tr>
-      <tr><td>fe-si-mg</td><td></td><td></td><td></td></tr>
-      <tr><td>cov_steel</td><td></td><td></td><td></td></tr>
-      <tr><td>preconditioning_inoculant</td><td></td><td></td><td></td></tr>
-      <tr><td>stream_inoculant</td><td></td><td></td><td></td></tr>
+      <tr><td>Fe-Si-Mg</td><td></td><td></td><td></td></tr>
+      <tr><td>Cov. Steel</td><td></td><td></td><td></td></tr>
+      <tr><td>Preconditioning Inoculant</td><td></td><td></td><td></td></tr>
+      <tr><td>Stream Inoculant</td><td></td><td></td><td></td></tr>
       <tr><td>Total</td><td></td><td></td><td></td></tr>
       <!--<tr><td>Total Metal Weight (kgs)</td><td></td><td></td><td></td></tr>-->
       </table>
@@ -849,11 +949,12 @@ console.log("in");
       </table >
       <h3 id='head_metal' class="text-center">Metallics Cost</h3>
       <table class='table table-bordered table-hover well test' id='display_metallic_detail' >
+      <tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr>
       <tr><td>R/R Credit Back @ 98% (kgs)</td><td></td><td></td><td></td></tr>
       <tr><td>Metallics(A) Cost incl. R/R (INR)</td><td></td><td></td><td></td></tr>
       <tr><td>Less R/R Value (INR)</td><td></td><td></td><td></td></tr>
-      <tr><td>Metallics Cost Excl. R/R (INR)</td><td></td><td></td><td></td></tr>
-      <tr><td>Total Metallics Cost (A+B) (INR)</td><td></td><td></td><td></td></tr>
+      <tr><td>Metallics Cost Excl. R/R (INR) (A1)</td><td></td><td></td><td></td></tr>
+      <tr><td>Total Metallics Cost (A1+B) (INR)</td><td></td><td></td><td></td></tr>
       </table>
       <h3 id='head_dis_sand_cost'  class='text-center'>Sand Cost</h3>
       <table class='table table-bordered table-hover well test' id='dis_sand_cost' >
@@ -876,7 +977,7 @@ console.log("in");
         <tr><td>Amine</td><td></td><td></td><td></td></tr>
         <tr><td>Total</td><td></td><td></td><td></td></tr>
       </table>
-      </div>
+    </div>
 
 
     <!--Dimension-->
@@ -885,8 +986,9 @@ console.log("in");
     <div id="get_grade"></div>
     <!--Raw Material-->
     <div id="get_raw_material"></div>
-
+    <div class="container-fluid">
       <div class="row">
+        <div class="container-fluid">
         <div class="row">
           <div class="good_cast" id="display_good_cast">
             <h3 id='head_good_casting' class='text-center ' style="width:500px">Cost /Kg of Good Casting</h3>
@@ -937,6 +1039,9 @@ console.log("in");
           </div>
         </div>
       </div>
+
+      </div>
+    </div>
     </div>  
 
     <!--</div>-->
@@ -1002,7 +1107,7 @@ console.log("in");
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Upload</button>
           </div>
         </div>
       </div>
@@ -1055,13 +1160,102 @@ console.log("in");
         </div>
         </div>
         <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Upload</button>
           </div>
       </div>
     </div>
   </div>
   </div> 
-  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="mixture-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="close" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="text-center">Gray Iron Charge Mix</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="container-fluid">
+
+              <div class="col-xs-6">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsRadios" id="calculateFromDefault" value="option1" checked>
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <tr>
+                          <th>Material</th>
+                          <th>Quantity(%)</th>
+                        </tr>
+                        <tr>
+                          <td>CRCA quantity</td>
+                          <td>45%</td>
+                        </tr>
+                        <tr>
+                          <td>Pig Iron quantity</td>
+                          <td>15%</td>
+                        </tr>
+                        <tr>
+                          <td>Borings</td>
+                          <td>10%</td>
+                        </tr>
+                        <tr>
+                          <td>Foundry R/R</td>
+                          <td>30%</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xs-6">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsRadios" id="calculateFromYield" value="option1" checked>
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <tr>
+                          <th>Material</th>
+                          <th>Quantity(%)</th>
+                        </tr>
+                        <tr>
+                          <td>CRCA quantity (A)</td>
+                          <td>55%</td>
+                        </tr>
+                        <tr>
+                          <td>Pig Iron quantity (B)</td>
+                          <td>15%</td>
+                        </tr>
+                        <tr>
+                          <td>Foundry R/R</td>
+                          <td>30%</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="help-block">
+                      (Calculated based on yield percentage)
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+              <button type="button" class="btn btn-danger" id="submitChargeMix" data-dismiss="modal">Submit</button>
+        </div>
+
+      </div>
+    </div>
+  </div> 
+  <div class="modal fade bs-example-modal-lg" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -1152,8 +1346,11 @@ console.log("in");
   </div>
   </div> 
   <footer class="footer" id="footer" style="background:rgb(0, 61, 100)">
-    <div class="container">
-      <p class="text-center" style="color:rgb(171, 199, 223);">Copyright &#169; 2015 Daimler. All rights reserved.</p>
+    <div class="container-fluid footer-wrapper">
+      <p class="text-center">
+        Copyright &#169; 2015 Daimler. All rights reserved.
+      </p>
+      <p class="pull-right footer-right">Developed by Sriram, Cost Engineer.</p>
     </div>
   </footer>
 	</body>

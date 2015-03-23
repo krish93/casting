@@ -6,6 +6,8 @@
   var power_cost,unit,private_rate,power_melting_loss,total_plant_overhead,icc_rm,plant_overhead_rm,sga_rm,profit_rm,profit_manufacturing_cost,rejection,final_total=0,sga_overhead;
   var power_cost,melting_cost,moulding_machine_cost,mould_cost,consumable_cost,core_cost,shot_blasting,labour_cost,total,sub_total_cost,rejection_percent,plant_overhead,total_machine_cost_good_Casting;
   var raw_casting_cost,casting_cost,ed_cost,total_part_cost;
+  var sand_preparation_cost=0,core_cost_good_cast=0;
+  var casting_cost_per_kg_good_cast_display=0;
   function flush_labour()
   {
     designation = [];
@@ -131,7 +133,6 @@
         {
          total_sum += (value.nos * (parseFloat(value.monthly_capacity)-parseFloat(value.monthly_capacity)*year_val))*12; 
         }
-      //  console.log(total_sum);
       }
     });
     return total_sum;
@@ -272,9 +273,7 @@
     resin=returnSumObject(resin_obj);
     hardener=returnSumObject(hardener_obj);
     amine=returnSumObject(amine_obj);
-//    console.log(crca+" "+fe_si+" "+fe_mn+" "+fe_si_mg+" "+bentonite+" "+lustron+" "+sand+" "+resin+" "+hardener+" "+amine);
     var space = (parseFloat(crca)+parseFloat(fe_si)+parseFloat(fe_mn)+parseFloat(fe_si_mg)+parseFloat(cov_steel)+parseFloat(bentonite)+parseFloat(lustron)+parseFloat(sand)+parseFloat(resin)+parseFloat(hardener)+parseFloat(amine))/10.76;
-  //  console.log(space);
     return space;
 
   }
@@ -359,21 +358,6 @@
     total = total_man_power_cost+total_depriciation+total_power_cost+total_space_cost;
     total_plant_overhead = total;
     plant_overhead = (total_annual_income/total)*100;
-   /* console.log(space_cost);
-    console.log(production_monthly_capacity);
-    console.log(maintenance_monthly_capacity);
-    console.log(qa_monthly_capacity);
-    console.log(total_production);
-    console.log(total_qa);
-    console.log(total_maintenance);
-    console.log("Total Annual Income"+total_annual_income);
-    console.log("Total Man Power Cost"+total_man_power_cost);
-    console.log("Total Decpriciation"+total_depriciation);
-    console.log("Power Cost"+power_cost);
-    console.log("total Power Cost"+total_power_cost);
-    console.log("Total Space Cost"+total_space_cost);
-    console.log("Total"+total);
-    console.log("Over Head"+plant_overhead);*/
   }
   function calcualteAdministrativeOverhead()
   {
@@ -420,25 +404,6 @@
     total = sub_total + depriciation + sub_total_1 + space_cost +power;
     manufacturing_cost = calculateManufacturingCost();
     sga_overhead = parseFloat(total/manufacturing_cost)*100
- /*   
-console.log("MD "+md);
-
-    console.log("Plant "+plant);
-    console.log("HR "+hr_total);
-    console.log("Design "+design_total);
-    console.log("Marketing "+marketing_total);
-    console.log("Depriciation "+depriciation);
-    console.log("Finance "+finance);
-    console.log("Strategy "+strategy_total);
-    console.log("Office Attendants "+office_attendants_total);
-    console.log("power before"+(parseFloat(power_melting_loss)/parseFloat(yield).toFixed(2))*(capacity/1000)*12);
-    console.log("Power "+power);
-    console.log("Space ="+space);
-    console.log("Space "+space_cost);
-    console.log("Total1 "+sub_total);
-    console.log("Total2 "+sub_total_1);
-    console.log("Manufacturing "+manufacturing_cost);
-    console.log("sga_overhead "+sga_overhead);*/
 
   }
   function calculateFinance()
@@ -488,12 +453,6 @@ console.log("MD "+md);
       total_nos = parseInt(account_incharge.nos) + parseInt(purchase_incharge.nos) + parseInt(excise_incharge.nos) + parseInt(account_staff.nos) +parseInt(excise_staff.nos);
     total_attendants = remaining_attendants * parseFloat(attendants.monthly_capacity);
       finance = (account_incharge_total+purchase_incharge_total+excise_incharge_total+account_staff_total+excise_staff_total+purchase_staff_total)*12+total_attendants;
-  /*    console.log(account_incharge_total);
-      console.log(purchase_incharge_total);
-      console.log(excise_incharge_total);
-      console.log(account_staff_total);
-      console.log(purchase_staff_total);
-      console.log(excise_staff_total);*/
     return finance;
   }
   function calculateManufacturingCost()
@@ -510,12 +469,6 @@ console.log("MD "+md);
       
     });
     total = parseFloat(total_machine_cost) + parseFloat(labour_cost) + parseFloat(plant_over_head);
-  /* console.log("manu "+total);
-    console.log("machine "+machine_cost);
-    console.log("total_mac "+total_machine_cost);
-    console.log("final "+total);
-    console.log("labour_cost "+labour_cost);
-    console.log("plant "+plant_over_head);*/
     return total;
   }
   function calculateTotal(nos,capacity)
@@ -536,7 +489,6 @@ console.log("MD "+md);
       total_man_power_cost = manPowerCost(file_lines);
       capacity=findMonthlyCapacity(file_lines,"capacity");
       good_casting_production = capacity * 12;
-    //  console.log("capacitys:"+capacity);
       man_power_cost_good_casting = total_man_power_cost / good_casting_production;
       yield=$("#yield").val()/100;
       year = $("#year").val()
@@ -575,7 +527,6 @@ console.log("MD "+md);
     $.each(spec_file,function(key,value){
       return_data.push(getFieldData(type,value));
     });
- //   console.log(return_data); 
     return return_data;
   }
   function getFieldData(field,record)
@@ -611,7 +562,6 @@ console.log("MD "+md);
         total_depriciation+=parseFloat(space_cost[key]);
       }
     });
- //   console.log(total_depriciation);
   }
   function calculatePowerCost()
   {
@@ -652,11 +602,13 @@ console.log("MD "+md);
     power_cost = calculatePowerCostPerKg();
     melting_cost = getSpecificData(spec_file,"melting","good_casting_cost");
     moulding_machine_cost = getSpecificData(spec_file,"moulding","good_casting_cost");
+    sand_preparation_cost = getSpecificData(spec_file,"sand","good_casting_cost");
+    core_cost_good_cast = getSpecificData(spec_file,"core","good_casting_cost");
     mould_cost = sand_cost_per_kg;
     consumable_cost = 1/capacity*findMonthlyCapacity(file_lines,"purchase_expense");
     labour_cost = man_power_cost_good_casting;
     
-    core_cost = (($("#core_weight").val()*total_cost_core_sand)/$("#cast_value").val())+parseFloat(getSpecificData(spec_file,"core","good_casting_cost"));
+    core_cost = ((parseFloat($("#core_weight").val())*total_cost_core_sand)/$("#cast_value").val());
     shot_blasting = getSpecificData(spec_file,"shotblast","good_casting_cost");
     sub_total_cost =parseFloat(power_cost)+parseFloat(melting_cost)+parseFloat(moulding_machine_cost)+parseFloat(consumable_cost);
     sub_total_cost+= parseFloat(mould_cost)+parseFloat(core_cost)+parseFloat(labour_cost)+parseFloat(shot_blasting);
@@ -670,11 +622,12 @@ console.log("MD "+md);
     rejection = ((parseFloat(power_cost)+parseFloat(raw_material))*(rejection_percent/100));
     final_total = parseFloat(total_metallic_cost)+parseFloat(sub_total_cost)+parseFloat(icc_rm)+parseFloat(plant_overhead_rm);
     final_total+= parseFloat(sga_rm)+parseFloat(profit_rm)+parseFloat(profit_manufacturing_cost)+parseFloat(rejection);
-    total_machine_cost_good_Casting = parseFloat(moulding_machine_cost)+parseFloat(melting_cost)+parseFloat(shot_blasting);
+    total_machine_cost_good_Casting = parseFloat(moulding_machine_cost)+parseFloat(melting_cost)+parseFloat(shot_blasting)+parseFloat(sand_preparation_cost)+parseFloat(core_cost_good_cast);
     raw_casting_cost=parseFloat(final_total)*parseFloat($("#cast_value").val());
     casting_cost=parseFloat(raw_casting_cost)-((parseFloat($("#cast_value").val())-parseFloat($("#get_weight").val()))*21*(0.85));
     ed_cost=$('div [data-type="ed_coating"]').data("cost")*parseFloat($("#surface_area").val());
-    total_part_cost=parseFloat(casting_cost)+parseFloat(ed_cost);
+    var machining_cost = parseFloat($("#machining_cost").val().trim());
+    total_part_cost=parseFloat(casting_cost)+parseFloat(ed_cost)+machining_cost;
     other_cost=parseFloat(icc_rm)+parseFloat(sga_rm)+parseFloat(plant_overhead_rm)+parseFloat(profit_rm)+parseFloat(rejection)+parseFloat(profit_manufacturing_cost);
     $("#display_content #display_good_cast").append("<h3 id='head_good_casting' class='text-center' style='width:500px'>Cost /Kg of good Casting</h3>");
     $("#display_content #display_good_cast").append("<table class='table table-bordered table-hover well test' id='cost_good_casting' style='width:500px'>");
@@ -701,8 +654,10 @@ console.log("MD "+md);
     printGoodCastingTable(table_name,"Rejection @"+rejection_percent+"%",parseFloat(rejection).toFixed(2));
     printGoodCastingTable(table_name,"Other Cost(INR) ",parseFloat(other_cost).toFixed(2));
     printGoodCastingTable(table_name,"Casting Cost/Kg ",parseFloat(final_total).toFixed(2));
+    casting_cost_per_kg_good_cast_display = parseFloat(final_total).toFixed(2);
     printGoodCastingTable(table_name,"Casting Cost ",parseFloat(casting_cost).toFixed(2));
     printGoodCastingTable(table_name,"ED Coating Cost (Per Sq.m)  ",parseFloat(ed_cost).toFixed(2));
+    printGoodCastingTable(table_name,"Machining Cost/Part (INR)  ",machining_cost.toFixed(2));
     printGoodCastingTable(table_name,"Total Part Cost (INR) ",parseFloat(total_part_cost).toFixed(2));
 
   }
@@ -717,26 +672,20 @@ console.log("MD "+md);
     eb_rate = unit;
     private_tower_rate =private_rate;
     total = (parseFloat(eb_rate * eb_unit) + parseFloat(private_tower_rate *private_unit))/1000;
-    /*console.log(unit_good_casting = power_cost / yield);
-    console.log(eb_unit);
-    console.log(private_unit);
-    console.log(parseFloat(eb_rate * eb_unit));
-    console.log(parseFloat(private_tower_rate *private_unit));
-    console.log(total);*/
     return total;
   }
   function getSpecificData(file,search,result)
   {
-    var return_data;
+    var return_data,flag=0;
     $.each(file,function(key,value){
       if(JSON.stringify(value.spec_process).toLowerCase().replace(" ","").replace(/\"/g,'').indexOf(search) >=0)
       {
         $.each(value,function(keys,values){
-          if(keys===result)
+          if(keys===result && flag==0)
           {
             return_data=parseFloat(values);
+            flag=1;
           }
-
         });
       }
 
@@ -760,8 +709,7 @@ console.log("MD "+md);
         dicv_machine_cost+=parseFloat(value);
       }
     });
-   // console.log("sub total"+dicv_sub_total_cost);
-    //console.log(dicv_machine_cost);
+
     dicv_labour_cost = labour_cost;
     dicv_plant_overhead= (parseFloat(dicv_machine_cost)+parseFloat(dicv_labour_cost))*(plant_overhead/100);
     dicv_sga=(parseFloat(dicv_machine_cost)+parseFloat(dicv_labour_cost)+parseFloat(dicv_plant_overhead))*(sga_overhead.toFixed(2)/100);
@@ -782,15 +730,8 @@ console.log("MD "+md);
     raw_casting_cost=parseFloat(final_total)*parseFloat($("#cast_value").val());
     casting_cost=parseFloat(raw_casting_cost)-((parseFloat($("#cast_value").val())-parseFloat($("#get_weight").val()))*21);
     ed_cost=$('div [data-type="ed_coating"]').data("cost")*parseFloat($("#surface_area").val());
-    total_part_cost=parseFloat(casting_cost)+parseFloat(ed_cost);
-   /* console.log("dicv sga "+dicv_sga);
-    console.log("dicv plant_overhead "+dicv_plant_overhead);
-    console.log("dicv rm markup"+dicv_rm_markup);
-    console.log("overall_profit "+overall_profit);
-    console.log("final "+final_total);
-    console.log(dicv_purchased_parts);
-    console.log(yield_variation);
-    console.log(volume_variation);*/
+    var machining_cost = parseFloat($("#machining_cost").val().trim());
+    total_part_cost=parseFloat(casting_cost)+parseFloat(ed_cost)+machining_cost;
 
     $("#display_content #display_dicv_good_cast").append("<h3 id='head_dicv' class='text-center'>DICV Cost /Kg of good Casting</h3>");
     $("#display_content #display_dicv_good_cast").append("<table class='table table-bordered table-hover well test' id='dicv_cost_good_casting'>");
@@ -811,6 +752,7 @@ console.log("MD "+md);
     printGoodCastingTable(table_name,"Casting Cost Per Kg",parseFloat(final_total).toFixed(2));
     printGoodCastingTable(table_name,"Casting Cost ",parseFloat(casting_cost).toFixed(2));
     printGoodCastingTable(table_name,"ED Coating Cost (Per Sq.m)  ",parseFloat(ed_cost).toFixed(2));
+    printGoodCastingTable(table_name,"Machining Cost/Part (INR)  ",machining_cost.toFixed(2));
     printGoodCastingTable(table_name,"Total Part Cost(INR) ",parseFloat(total_part_cost).toFixed(2));
   }
 //});

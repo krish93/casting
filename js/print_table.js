@@ -5,6 +5,10 @@ function printRawMaterialTable(table_name,material_name,qty,rate,cost)
   $(table_name).append("<tr></tr>");
   
   var table_last_row = table_name+" tr:nth-last-child(1)";
+  if(material_name.toLowerCase() == "coke")
+  {
+    material_name = "Carburiser";
+  }
   $(table_last_row).append(table_data_start+material_name+table_data_end);
   $(table_last_row).append(table_data_start+qty+table_data_end);
   $(table_last_row).append(table_data_start+rate+table_data_end);

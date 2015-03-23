@@ -45,7 +45,7 @@ $(document).ready(function(){
           categories.push(cells[index]);
           if(set)
           {
-            console.log(temp_sub_category);
+            //console.log(temp_sub_category);
             sub_categories.push(temp_sub_category);
 
 
@@ -85,7 +85,7 @@ $(document).ready(function(){
       }
     }
     var category_length = categories.length - 1;
-    console.log(temp_sub_category);
+   // console.log(temp_sub_category);
     sub_categories.push(temp_sub_category);
     
     if(temp_sub_category_description.length > 0)
@@ -162,7 +162,7 @@ $(document).ready(function(){
         $.each( sub_categories[key], function(sub_key, sub_value){
           var html_content = checkbox_html_start+sub_value+checkbox_html_end;
           $('#categories-menu').append(html_content);
-          console.log($('#category-menu').last());
+         // console.log($('#category-menu').last());
           $('#categories-menu div:nth-last-child(1)').last().addClass("sub-category");
         });
       }
@@ -177,7 +177,7 @@ $(document).ready(function(){
     $this = $('#description-menu ul');
     for(i=0;i<categories.length;i++)
     {
-      console.log(sub_categories[i].length);
+     // console.log(sub_categories[i].length);
       $this.append(content_html_start+"<strong>"+categories[i]+"</strong>"+content_html_end);
       $('#description-menu ul li:nth-last-child(1)').last().addClass("text-info text-bold");
       if(sub_categories[i].length==0)
@@ -210,10 +210,10 @@ $(document).ready(function(){
   {
     findColumnHeadings();
     extractCategories(category_index, sub_category_index);
-    console.log(categories);
+  /*  console.log(categories);
     console.log(sub_categories);
     console.log(description);
-    console.log(models);
+    console.log(models);*/
     createCategoriesMenu();
     createDescriptionView();
   }
@@ -232,7 +232,7 @@ $(document).ready(function(){
         
         file_lines.push(lines[line]);
       }
-      console.log(file_lines);
+     // console.log(file_lines);
       
       inferFile();
     };
