@@ -329,9 +329,9 @@ function getRawMaterialCost()
   }
   
   total_metal_qty = total_qty;
-  $("#display_content #main_table").append("<h3 id='head_raw_material_cost' class='text-center' >A- Charge Mix Cost for "+type.toUpperCase().replace("_","")+"</h3>"); 
-  $("#display_content #main_table").append("<table class='table table-bordered table-hover' id='table_grade'><tr><th>"+type.toUpperCase().replace("_"," ")+"</th><th>Grade "+grade+"</th><th> Furance Capacity "+$("#quantity").val()+" kgs"+"</th><th> Yield("+$("#yield").val()+"%)</th></tr></table>");
-  $("#display_content #main_table").append("<table class='table table-bordered table-hover well test' id='raw_material_cost' > <tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table>");
+  $("#display_content #main_table").append("<!-- begin table parent --><div id=\"charge-mix-display-wrapper\"><h3 id='head_raw_material_cost' class='text-center' >A- Charge Mix Cost for "+type.toUpperCase().replace("_","")+"</h3>"+ 
+  "<table class='table table-bordered table-hover' id='table_grade'><tr><th>"+type.toUpperCase().replace("_"," ")+"</th><th>Grade "+grade+"</th><th> Furance Capacity "+$("#quantity").val()+" kgs"+"</th><th> Yield("+$("#yield").val()+"%)</th></tr></table>"
+  +"<table class='table table-bordered table-hover well test' id='raw_material_cost' > <tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table></div> <!-- end table parent-->");
   var table_name="#raw_material_cost";
   var crca_cost = parseFloat(crca_qty) * parseFloat(crca_rate);
   var pig_iron_cost = parseFloat(pig_iron_qty) * parseFloat(pig_iron_rate);
@@ -496,22 +496,20 @@ function getTreatmentCost()
   total_metallic_excl_rr = less_rr_value / cost_metal_yield;
   cost_yield = total_treatment_cost / cost_metal_yield;
   total_metallic_cost = cost_yield +total_metallic_excl_rr;
-  $("#display_content #main_table").append("<h3 id='head_treat' class='text-center'>B - Treatment RM Cost For ("+$("#quantity").val()+"kgs)</h3>");
-  //$("#display_content").append("<table class='table table-bordered table-hover well test' id='display_equipment_detail'>");
-  $("#display_content #main_table").append("<table class='table table-bordered table-hover well test' id='display_equipment_detail' >");
-  $("#display_equipment_detail").append("<tr><th>Treatment Cost Details</th><th>kgs</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table>");
+  $("#display_content #main_table").append("<div id=\"treatment-cost-wrapper\"><h3 id='head_treat' class='text-center'>B - Treatment RM Cost For ("+$("#quantity").val()+"kgs)</h3>"
+  +"<table class='table table-bordered table-hover well test' id='display_equipment_detail' >"
+  +"<tr><th>Treatment Cost Details</th><th>kgs</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table></div>");
   var table_name="#display_equipment_detail";
    $.each(treatment_material,function(key,value){
     printRawMaterialTable(table_name,value,treatment_qty[key],treatment_rate[key],(treatment_qty[key]*treatment_rate[key]).toFixed(2));
   });
   printRawMaterialTable(table_name,"Total",total_treatment_qty.toFixed(2),"-",total_treatment_cost.toFixed(2));
   //printRawMaterialTable(table_name,"Total Metal Weight",total_metal_weight.toFixed(2),"-","-");
-  $("#display_content #main_table").append("<table class='table table-bordered table-hover well test' id='treat_disp_detail' ><tr><td>Treatment Cost Per.kg</td><td>"+cost_yield.toFixed(2)+"</td></tr></table>");
+  $("#display_content #main_table").append("<div id=\"treatment-sub-display-wrapper\"><table class='table table-bordered table-hover well test' id='treat_disp_detail' ><tr><td>Treatment Cost Per.kg</td><td>"+cost_yield.toFixed(2)+"</td></tr></table></div>");
   
-  $("#display_content #main_table").append("<h3 id='head_metal' class='text-center'>Metallics Cost</h3>");
-  //$("#display_content").append("<table class='table table-bordered table-hover well test' id='display_equipment_detail'>");
-  $("#display_content #main_table").append("<table class='table table-bordered table-hover well test' id='display_metallic_detail' ></table>");
-  $("#display_metallic_detail").append("<tr><th>Material</th><th>kgs</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table>");
+  $("#display_content #main_table").append("<div id=\"metallics-display-wrapper\"><h3 id='head_metal' class='text-center'>Metallics Cost</h3>"
+  +"<table class='table table-bordered table-hover well test' id='display_metallic_detail' ></table>"
+  +"<tr><th>Material</th><th>kgs</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table></div>");
   var table_name="#display_metallic_detail";
 
   printRawMaterialTable(table_name,"R/R Credit Back @ 98% (kgs)",rr_credit_qty.toFixed(2),rr_credit_rate,rr_credit_total.toFixed(2));
@@ -591,9 +589,9 @@ function getTreatmentValues()
   core_rejection = (10/100)*total_qty;
   total_core_sand = parseFloat(total_qty) - parseFloat(core_rejection);
   total_cost_core_sand = parseFloat(total_cost) / parseFloat(total_core_sand);
-  $("#display_content #main_table").append("<h3 id='head_dis_cold_cost' class='text-center' >Cold Box Core Cost</h3>");
-  $("#display_content #main_table").append("<p id='name_cold' class='text-center'>Core Sand Mixer "+core_weight+"kgs </p>")
-  $("#display_content #main_table").append("<table class='table table-bordered table-hover well test' id='dis_cold_cost' ><tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table>");
+  $("#display_content #main_table").append("<div id=\"cold-box-wrapper\"><h3 id='head_dis_cold_cost' class='text-center' >Cold Box Core Cost</h3>"
+  +"<p id='name_cold' class='text-center'>Core Sand Mixer "+core_weight+"kgs </p>"
+  +"<table class='table table-bordered table-hover well test' id='dis_cold_cost' ><tr><th>Material</th><th>Qty (kgs)</th><th>Rs/kg</th><th>Total Cost (INR)</th></tr></table></div>");
   
   var table_name="#dis_cold_cost";
 

@@ -301,7 +301,7 @@ function getInputTable()
   printGoodCastingTable(table_name,"Year ",year);
   printGoodCastingTable(table_name,"Box Dimensions (LxBxCHxDH) in mm",box_dimension);
   $('#head3').remove();
-  $("#display_content #main_table").append("<h3 id='head3' style='text-align:center;'>Material Details</h3><table class='table table-bordered table-hover well test' id='material_details' ></table>");
+  $("#display_content #main_table").append("<div id=\"material-details-wrapper\"><h3 id='head3' style='text-align:center;'>Material Details</h3><table class='table table-bordered table-hover well test' id='material_details' ></table></div>");
   var table_name="#material_details";
   printGoodCastingTable(table_name,"Type of Material",convertToUppercase(type_of_material));
   printGoodCastingTable(table_name,"Purchased Parts Expenses",findMonthlyCapacity(file_lines,"purchase_expense"));

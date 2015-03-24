@@ -422,12 +422,64 @@ console.log("in");
     // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
     // There is no support for any other type of selectors 
     // (class, of compound) at this time.
-    specialElementHandlers = {
-        // element with id of "bypass" - jQuery style selector
-        '#bypassme': function (element, renderer) {
-            // true = "handled elsewhere, bypass text extraction"
-            return true
-        }
+    var TrueFunc = function () {
+        return true
+    };
+    var specialElementHandlers = {
+        '#display_dicv_good_cast' : TrueFunc,
+        '#preview_button_display' : TrueFunc,
+        '#summary-title-display' : TrueFunc,
+    };
+    margins = {
+        top: 10,
+        bottom: 60,
+        left: 40,
+        width: 522
+    };
+    // all coords and widths are in jsPDF instance's declared units
+    // 'inches' in this case
+    pdf.fromHTML(
+    source, // HTML string or DOM elem ref.
+    margins.left, // x coord
+    margins.top, { // y coord
+        'width': margins.width, // max width of content on PDF
+        'elementHandlers': specialElementHandlers
+    },
+
+    function (dispose) {
+        // dispose: object with X, Y of the last line add to the PDF 
+        //          this allow the insertion of new lines after html
+        pdf.save($("#part_no").val()+'-procurement.pdf');
+    }, margins);
+});
+   
+
+
+// Pdf for procurement start 
+$("#download_button_procurement").click(function(){
+         
+    var pdf = new jsPDF('p', 'pt', 'letter');
+    // source can be HTML-formatted string, or a reference
+    // to an actual DOM element from which the text will be scraped.
+    source = $('.disp')[0];
+
+    // we support special element handlers. Register them with jQuery-style 
+    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+    // There is no support for any other type of selectors 
+    // (class, of compound) at this time.
+    var TrueFunc = function () {
+        return true
+    };
+    var specialElementHandlers = {
+        '#display_dicv_good_cast' : TrueFunc,
+        '#charge-mix-display-wrapper' : TrueFunc,
+        '#treatment-cost-wrapper' : TrueFunc,
+        '#material-details-wrapper' : TrueFunc,
+        '#treatment-sub-display-wrapper' : TrueFunc,
+        '#metallics-display-wrapper' : TrueFunc,
+        '#preview_button_display' : TrueFunc,
+        '#summary-title-display' : TrueFunc,
+        '#cold-box-wrapper' : TrueFunc
     };
     margins = {
         top: 10,
@@ -454,6 +506,8 @@ console.log("in");
    
     
       });
+
+// Pdf for procurement end
     
 		</script>
 	</head>
@@ -895,6 +949,11 @@ console.log("in");
                 <div class="form-group">
                   <button  class="btn btn-warning form-control shadow-z-2" id="calculate">Get Cast!!</button>
                 </div> 
+                <div class="form-group">
+                  <button  class="btn btn-warning form-control shadow-z-2" id="download_button_procurement">
+                    Download for Procurement
+                  </button>
+                </div> 
               </div>
             </div>
           </div>
@@ -908,8 +967,9 @@ console.log("in");
         <ul class="nav nav-pills nav-stacked">
           <li class="active">
             <a href="#">
-              <center>Summary
-                <span class="pull-right">
+              <center><span id="summary-title-display">Summary </span>
+                <span id="bottom-up-title-display" style="display:none;">Bottom Up Summary</span> 
+                <span class="pull-right" id="preview_button_display">
                   <button href="#" id="preview_button" style="margin-top:-5px;" class="btn btn-warning" data-toggle='tooltip' data-placement='bottom' title='Preview' data-original-title='Preview'>
                   <span class="glyphicon glyphicon-picture"></span> Preview
                   </button>
@@ -1019,6 +1079,7 @@ console.log("in");
               <button class="btn btn-success" id="display_dicv_good_cast_btn"><span class="glyphicon glyphicon-arrow-down" ></span></button>
             </span>
           </div>
+          <div id="bypassme">
           <div class="dicv_good_cast" id="display_dicv_good_cast">
             <h3 id='head_dicv' class='text-center '>DICV Cost /Kg of good Casting</h3>
               <table class='table table-bordered table-hover well test' id='dicv_cost_good_casting'>
@@ -1036,6 +1097,7 @@ console.log("in");
                 <tr><td>Profit on Manufacturing Cost</td><td> </td></tr>
                 <tr><td>Total Cost</td><td> </td></tr>
               </table>  
+          </div>
           </div>
         </div>
       </div>
